@@ -1,0 +1,246 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+  }
+  
+  header {
+    position: relative;
+  }
+  
+  .barra-navegacion {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* Color de fondo */
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: 20px;
+    line-height: 1; /* Ajustar el espaciado de las líneas */
+    color: orange;/* color naranja del texto*/
+  }
+  
+  .menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu li {
+    margin-right: 15px;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .busqueda {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Empujar a la derecha */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  
+  .busqueda input {
+    border: none;
+    outline: none;
+    padding: 5px;
+  }
+  
+  .icono-lupa {
+    margin-left: 5px;
+    color: #666;
+  }
+  
+  .idioma {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+  }
+  
+  .idioma img {
+    width: 20px;
+    margin-right: 5px;
+  }
+  
+  .usuario {
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+  }
+  
+  .icono-usuario {
+    font-size: 1.2em;
+    color: #666;
+  }
+
+  /*aqui empieza la pagina lo de arriba es la barra de navegacion*/
+  .hero {
+    position: relative;
+    height: 500px; 
+  }
+  
+  .imagen-fondo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .imagen-logo {
+    width: 300px; 
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .bienvenidos {
+    text-align: center;
+    padding: 250px 40px;
+    background-image: url("imagen-bienvenida.jpg") ;
+    background-position: center;
+    background-size: cover;
+    
+  }
+  .recuadro-blanco{
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 10px; 
+    padding: 40px; 
+    width: 85%; 
+    margin: 40px auto; 
+  }
+  /*hasta aqui estamos bien con todo lo que esta*/
+
+  /*no se como hacer lo de las rutas*/
+  .rutas {
+    padding: 50px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .lista-rutas {
+    width: 40%;
+  }
+  
+  .ruta {
+    margin-bottom: 20px;
+  }
+  
+  .mapa {
+    width: 50%;
+  }
+  /*hasta aqui deberia de ser las rutas*/
+
+  /*de aqui en adelante es mision vision y objetivos que no se como hacer el degradado*/
+  .mision-vision-objetivo {
+    display: flex;
+    justify-content: space-around;
+    padding: 250px 40px;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  
+  .mision, .vision, .objetivo {
+    width: 30%;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .mision h2, .vision h2, .objetivo h2 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px; 
+  }
+  .mision p, .vision p, .objetivo p {
+    position: relative;
+    z-index: 1;
+  }
+  .mision::before, .vision::before, .objetivo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0,5), rgba(255, 140, 0, 0.5));
+    z-index: 0;
+    border-radius: 50%;
+    padding:20px;
+    width: 300%;
+    height: 300%;
+    transform: translate(-50%, -50%);
+  }
+  .mision p::before, .vision p::before, .objetivo p::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.5), rgba(255, 140, 0, 0.5));
+    border-radius: 50%;
+    padding:20px;
+    z-index: 0;
+  }
+  .mision p, .vision p, .objetivo p{
+    position: relative;
+    z-index: 1;
+  }
+  
+  /*de aqui */
+  .contacto {
+    text-align: center;
+    padding: 100px 40px;
+    background-image: url("contacto-fondo.jpg");
+    background-position: center;
+    background-size: cover;
+    button {
+        background-color: rgb(255, 136, 0);
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      };
+  }
+
+  .recuadro-formulario{
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 10px;
+    padding: 40px; 
+    width: 85%; 
+    margin: 40px auto; 
+  }
+  
+  .formulario {
+    width: 100%;
+    padding: 40px;
+  }
+  
+  
+  footer {
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 20px;
+  }
+  /*hasta aqui esta todo bien*/

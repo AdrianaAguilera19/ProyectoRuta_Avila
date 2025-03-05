@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruta Ávila Unimet</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <header>
+    <nav class="barra-navegacion">
+        <div class="logo">
+            RUTA ÁVILA
+          </div>
+          <ul class="menu">
+            <li><a href="#">Inicia Sesión</a></li>
+            <li><a href="#">Conócenos</a></li>
+            <li><a href="#">Rutas</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+          <div class="busqueda">
+            <input type="text" placeholder="Pico Naiguatá">
+            <span class="icono-lupa"></span>
+          </div>
+          <div class="idioma">
+            <img src="bandera.jpg" alt="Español"> 
+          </div>
+          <div class="usuario">
+            <span class="icono-usuario"></span>
+          </div>
+    </nav>
+    <div class="hero">
+      <img class="imagen-fondo" src="hero-fondo.jpg" alt="Fondo Hero">
+      <img class="imagen-logo" src="ruta-avila-logo.jpg" alt="Logo Ruta Ávila">
+    </div>
+  </header>
+
+
+  <section class="bienvenidos">
+    
+        <div class="recuadro-blanco">
+            
+        <h1>Bienvenidos a Ruta Ávila Unimet</h1>
+        <p>Aqui encontrarás excursiones guiadas al Parque Nacional El Avila, dirigidas exclusivamente
+        a estudiantes de la universidad Metropolitana. Nos dedicamos a ofrecer rutas seguras y
+        diversas, con el acompañamiento de guias experimentados, promoviendo una conexion con la
+        naturaleza y fomentando un espiritu de comunidad entre los estudiantes.</p>
+
+        <p>A continuación, revisa nuestras rutas disponibles y elige tu próxima aventura</p>
+        </div>
+    </div>
+  </section>
+<!--hasta aqui es como la primera parte de la pagina falta ajustar el logo -->
+
+
+  <section class="rutas">
+    <h2>RUTAS</h2>
+    <div class="lista-rutas">
+      <div class="ruta">
+        <h3>#1 Galipan Heaven</h3>
+        <p>Descripción...</p>
+        <img src="ruta1.jpg" alt="Ruta 1">
+      </div>
+      </div>
+    <img src="mapa.png" alt="Mapa">
+  </section>
+
+  <section class="mision-vision-objetivo">
+    <div class="mision">
+      <h2>MISIÓN</h2>
+      <p>Nuestra misión es brindar a los estudiantes de la Universidad Metropolitana una 
+        plataforma centralizada orientada a la exposición de diferentes rutas de
+        senderismo proporcionadas por el Proyecto Ávila.</p>
+    </div>
+    <div class="vision">
+      <h2>VISIÓN</h2>
+      <p>Promover la participación estudiantil y el desarrollo integral de los estudiantes
+        de la Universidad Metropolitana a través de la creación de rutas de senderismo.
+    </p>
+    </div>
+    <div class="objetivo">
+      <h2>OBJETIVO</h2>
+      <p>A partir de la creación de “Ruta Ávila UNIMET” se busca proporcionar una plataforma
+        virtual que permita a los estudiantes acceder a oportunidades de realizar rutas y
+        conectar con el mundo natural.
+    </p>
+    </div>
+  </section>
+
+  <section class="contacto">
+    <div class="recuadro-formulario">
+        <div class="formulario">
+            <h2>SOLICITAR MÁS INFORMACIÓN</h2>
+            <form>
+                <p>Rellene los campos y se podran en contacto con usted lo antes posible, muchas gracias.</p>
+                <label for="correo"> E-mail</label> <br>
+                <input type="text" id="correo" placeholder="pedroperez@correo.unimet.edu.ve"><br>
+                <br>
+                <label for="nombre-apellido"> nombre y apellido</label><br>
+                <input type="text" id="nombre-apellido" placeholder="pedro perez"><br>
+                <br>
+                <label for="numero-telefonico"> numero de telefono</label><br>
+                <input type="text" id="numero-telefonico" placeholder="04141234567"><br>
+                <br>
+                <label for="Solicitud">Solicitud</label><br>
+                <textarea name="Solicitud" id="Solicitud" cols="50" rows="10" placeholder="solicito informacion sobre la ruta de sabas nieves"></textarea><br>
+                <br>
+                <button type="submit" id="envio">Enviar</button><br>
+                <br>
+                <button type="submit">cancelar</button>
+            </form>
+        </div>
+    </div>
+    
+  </section>
+
+  <footer>
+    <p>Teléfono: +58 212 508 1000</p>
+    <p>E-Mail: rutaavilaunimet@unimet.com</p>
+    <button>SOLICITAR MÁS INFORMACIÓN</button>
+  </footer>
+  <script src="script.js"></script>
+
+</body>
+</html>
