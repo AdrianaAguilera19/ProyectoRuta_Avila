@@ -213,23 +213,23 @@ body {
 .error-message {
     color: #ff0000;
     background-color: #ffe6e6;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
     text-align: center;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .success-message {
     color: #008000;
     background-color: #e6ffe6;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
     text-align: center;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }

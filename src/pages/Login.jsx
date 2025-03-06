@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { app } from '../credenciales';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const auth = getAuth(app);
 
@@ -8,6 +8,8 @@ const Login = () => {
     const [isActive, setIsActive] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -31,18 +33,38 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email || !password) {
+        if (isActive && (!name || !email || !password || !confirmPassword)) {
             setError('Por favor, completa todos los campos.');
+            setSuccess('');
+            return;
+        }
+
+        if (!isActive && (!email || !password)) {
+            setError('Por favor, completa todos los campos.');
+            setSuccess('');
+            return;
+        }
+
+        if (isActive && password !== confirmPassword) {
+            setError('Las contraseñas no coinciden.');
             setSuccess('');
             return;
         }
 
         const emailDomain = email.split('@')[1];
         if (emailDomain !== 'correo.unimet.edu.ve') {
-            setError('Solo se permiten correos de la UNIMET.');
+            setError('¡Debes usar el correo Unimet!');
             setSuccess('');
             return;
         }
@@ -67,27 +89,66 @@ const Login = () => {
         }
     };
 
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+
+        provider.setCustomParameters({
+            prompt: 'select_account'
+        });
+
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            const emailDomain = user.email.split('@')[1];
+            if (emailDomain !== 'correo.unimet.edu.ve') {
+                await signOut(auth);
+                setError('¡Debes usar el correo Unimet!');
+                console.log('Usuario no autorizado:', user.email);
+                return;
+            }
+
+            console.log('Usuario autenticado con Google:', user);
+            setSuccess('Inicio de sesión con Google exitoso.');
+        } catch (error) {
+            setError(error.message);
+            console.error('Error al autenticar con Google:', error.message);
+        }
+    };
+
     return (
         <div className={`container ${isActive ? "active" : ""}`} id="container">
             <div className="form-container sign-up">
                 <form onSubmit={handleSubmit}>
                     <h1>Crea una cuenta</h1>
                     <div className="social-icons">
-                        <a href="#" className="icon">
+                        <a href="#" className="icon" onClick={handleGoogleSignIn}>
                             <i className="fa-brands fa-google-plus-g"></i>
                         </a>
                     </div>
-                    <input 
-                        type="email" 
-                        placeholder="Correo electrónico" 
-                        value={email} 
-                        onChange={handleEmailChange} 
+                    <input
+                        type="text"
+                        placeholder="Nombre"
+                        value={name}
+                        onChange={handleNameChange}
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Contraseña" 
-                        value={password} 
-                        onChange={handlePasswordChange} 
+                    <input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Confirmar contraseña"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
                     />
                     {error && (
                         <p className="error-message">
@@ -107,21 +168,21 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>Iniciar sesión</h1>
                     <div className="social-icons">
-                        <a href="#" className="icon">
+                        <a href="#" className="icon" onClick={handleGoogleSignIn}>
                             <i className="fa-brands fa-google-plus-g"></i>
                         </a>
                     </div>
-                    <input 
-                        type="email" 
-                        placeholder="Correo electrónico" 
-                        value={email} 
-                        onChange={handleEmailChange} 
+                    <input
+                        type="email"
+                        placeholder="Correo electrónico o nombre de usuario"
+                        value={email}
+                        onChange={handleEmailChange}
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Contraseña" 
-                        value={password} 
-                        onChange={handlePasswordChange} 
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={handlePasswordChange}
                     />
                     {error && (
                         <p className="error-message">
