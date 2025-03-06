@@ -7,6 +7,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+/*Login*/
 body {
     background-image: url('https://adrianvisual.com/wp-content/uploads/2016/04/img_20160403_163436_zpsqut5yxvn.jpg?w=1024');
     background-size: cover;
@@ -210,6 +211,8 @@ body {
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+/*Mensajes de error*/
 .error-message {
     color: #ff0000;
     background-color: #ffe6e6;
@@ -232,4 +235,28 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/* Visualizacion de contrasena*/
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.password-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; 
+}
+
+.password-icon:hover {
+    color: #333;
 }

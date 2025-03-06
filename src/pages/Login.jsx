@@ -12,6 +12,7 @@ const Login = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     const handleRegisterClick = () => {
         setIsActive(true);
@@ -39,6 +40,10 @@ const Login = () => {
 
     const handleNameChange = (e) => {
         setName(e.target.value);
+    };
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
     };
 
     const handleSubmit = async (e) => {
@@ -83,13 +88,19 @@ const Login = () => {
                 setSuccess('Inicio de sesión exitoso.');
             }
         } catch (error) {
-            setError(error.message);
+            if (error.code === 'auth/email-already-in-use') {
+                setError('Este correo ya está registrado. Por favor, inicia sesión.');
+            } else {
+                setError(error.message);
+            }
             setSuccess('');
             console.error('Error:', error.message);
         }
     };
 
-    const handleGoogleSignIn = async () => {
+    const handleGoogleSignIn = async (e) => {
+        e.preventDefault();
+
         const provider = new GoogleAuthProvider();
 
         provider.setCustomParameters({
@@ -138,18 +149,30 @@ const Login = () => {
                         value={email}
                         onChange={handleEmailChange}
                     />
-                    <input
-                        type="password"
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirmar contraseña"
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
-                    />
+                    <div className="password-container">
+                        <input
+                            type={passwordVisible ? "text" : "password"}
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        <i
+                            className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
+                            onClick={togglePasswordVisibility}
+                        ></i>
+                    </div>
+                    <div className="password-container">
+                        <input
+                            type={passwordVisible ? "text" : "password"}
+                            placeholder="Confirmar contraseña"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                        />
+                        <i
+                            className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
+                            onClick={togglePasswordVisibility}
+                        ></i>
+                    </div>
                     {error && (
                         <p className="error-message">
                             <i className="fa-solid fa-circle-exclamation"></i> {error}
@@ -178,12 +201,18 @@ const Login = () => {
                         value={email}
                         onChange={handleEmailChange}
                     />
-                    <input
-                        type="password"
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
+                    <div className="password-container">
+                        <input
+                            type={passwordVisible ? "text" : "password"}
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        <i
+                            className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
+                            onClick={togglePasswordVisibility}
+                        ></i>
+                    </div>
                     {error && (
                         <p className="error-message">
                             <i className="fa-solid fa-circle-exclamation"></i> {error}
@@ -194,7 +223,7 @@ const Login = () => {
                             <i className="fa-solid fa-circle-check"></i> {success}
                         </p>
                     )}
-                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <a href="#" onClick={(e) => e.preventDefault()}>¿Olvidaste tu contraseña?</a>
                     <button type="submit">Aceptar</button>
                 </form>
             </div>
