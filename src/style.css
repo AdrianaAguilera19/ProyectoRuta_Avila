@@ -166,7 +166,7 @@ body {
 .toggle{
     background-color: #d0ac1a;
     height: 100%;
-    background: linear-gradient(to right, #6193e8, #1e633f);
+    background: linear-gradient(to right, #61afeb, #1e633f);
     color: #fff;
     position: relative;
     left: -100%;
@@ -236,6 +236,16 @@ body {
     align-items: center;
     gap: 5px;
 }
+.warning-message {
+    background-color: #fff3cd; 
+    color: #856404; 
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ffeeba; 
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+}
 
 /* Visualizacion de contrasena*/
 .password-container {
@@ -259,4 +269,14 @@ body {
 
 .password-icon:hover {
     color: #333;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    margin-right: 8px; /* Espacio entre el spinner y el texto */
 }

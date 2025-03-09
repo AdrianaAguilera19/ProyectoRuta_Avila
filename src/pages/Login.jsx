@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { app } from '../credenciales';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, fetchSignInMethodsForEmail } from 'firebase/auth';
-
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
 
 const auth = getAuth(app);
 
@@ -13,6 +12,7 @@ const Login = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [warning, setWarning] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -48,41 +48,20 @@ const Login = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    //Dominio para el formulario
+    // Dominio para el formulario
     const isValidEmail = (email) => {
         return email.endsWith('@correo.unimet.edu.ve');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (isActive && (!name || !email || !password || !confirmPassword)) {
-            setError('Por favor, completa todos los campos.');
-            setSuccess('');
-            return;
-        }
-
-        if (!isActive && (!email || !password)) {
-            setError('Por favor, completa todos los campos.');
-            setSuccess('');
-            return;
-        }
-
-        if (isActive && password !== confirmPassword) {
-            setError('Las contraseñas no coinciden.');
-            setSuccess('');
-            return;
-        }
-
-        // Validación del dominio 
-        if (!isValidEmail(email)) {
-            setError('¡Debes usar el correo Unimet (@correo.unimet.edu.ve)!');
-            setSuccess('');
-            return; 
-        }
-
+        setLoading(true);
         setError('');
         setSuccess('');
+
+        const timeout = setTimeout(() => {
+            setWarning('La operación está tardando más de lo esperado. Por favor, verifica tu conexión a internet.');
+        }, 10000); // 10 segundos
 
         try {
             if (isActive) {
@@ -95,17 +74,86 @@ const Login = () => {
                 setSuccess('Inicio de sesión exitoso.');
             }
         } catch (error) {
-            if (error.code === 'auth/email-already-in-use') {
-                setError('Este correo ya está registrado. Por favor, inicia sesión.');
-            } else {
-                setError(error.message);
+            console.log('Código de error:', error.code); // Depuración
+            console.log('Mensaje de error:', error.message); // Depuración
+
+            let errorMessage = 'Ocurrió un error. Por favor, inténtalo de nuevo.';
+
+            switch (error.code) {
+                case 'auth/network-request-failed':
+                    errorMessage = 'Error de conexión. Por favor, verifica tu conexión a internet.';
+                    break;
+                case 'auth/email-already-in-use':
+                    errorMessage = 'Este correo ya está registrado. Por favor, inicia sesión.';
+                    break;
+                case 'auth/invalid-credential':
+                    errorMessage = 'Credenciales inválidas';
+                    break;
+                case 'auth/user-not-found':
+                    errorMessage = 'No existe una cuenta con este correo. Por favor, regístrate.';
+                    break;
+                case 'auth/wrong-password':
+                    errorMessage = 'Contraseña incorrecta. Por favor, verifica tus credenciales.';
+                    break;
+                default:
+                    errorMessage = 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
+                    break;
             }
+
+            setError(errorMessage);
             setSuccess('');
-            console.error('Error:', error.message);
+        } finally {
+            clearTimeout(timeout); // Limpiar el timeout
+            setLoading(false); // Detener el spinner
         }
     };
 
-    const handleGoogleSignIn = async () => {
+    const handlePasswordReset = async (e) => {
+        setSuccess('');
+        e.preventDefault(); // Evita que el formulario se envíe
+
+        if (!email) {
+            setError('Por favor, ingresa tu correo electrónico.');
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            setError('¡Debes usar el correo Unimet (@correo.unimet.edu.ve)!');
+            return;
+        }
+
+        setError('');
+        setWarning('');
+        setLoading(true);
+
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setWarning('Se ha enviado un correo electrónico para restablecer tu contraseña.');
+        } catch (error) {
+            console.log('Código de error:', error.code); 
+            console.log('Mensaje de error:', error.message); 
+
+            let errorMessage = 'Ocurrió un error al enviar el correo. Por favor, inténtalo de nuevo.';
+
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    errorMessage = 'No existe una cuenta con este correo. Por favor, regístrate.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'El correo electrónico no es válido. Por favor, ingresa un correo válido.';
+                    break;
+                default:
+                    errorMessage = 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
+                    break;
+            }
+
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleAuth = async () => {
         setError('');
         setSuccess('');
         setLoading(true);
@@ -114,56 +162,14 @@ const Login = () => {
             hd: 'correo.unimet.edu.ve',
             prompt: 'select_account',
         });
-    
+
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             console.log('Usuario autenticado con Google:', user);
-    
+
             // Inicio de sesión exitoso (sin verificación de registro)
-            setSuccess('Inicio de sesión con Google exitoso.');
-            setIsActive(false);
-    
-        } catch (error) {
-            if (error.code === 'auth/unauthorized-domain') {
-                setError('Debes usar el correo Unimet (@correo.unimet.edu.ve).');
-            } else {
-                setError(error.message || 'Error al autenticar con Google.');
-                console.error('Error al autenticar con Google:', error.message);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-    const handleGoogleSignUp = async () => {
-        setError('');
-        setSuccess('');
-        setLoading(true);
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({
-            hd: 'correo.unimet.edu.ve',
-            prompt: 'select_account',
-        });
-    
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            console.log('Usuario autenticado con Google:', user);
-    
-            // Verificar si el usuario ya está registrado
-            const methods = await fetchSignInMethodsForEmail(auth, user.email);
-            if (methods && methods.length > 0) {
-                // El usuario ya está registrado, iniciar sesión automáticamente
-                setSuccess('Inicio de sesión con Google exitoso.');
-                setIsActive(false);
-                setLoading(false);
-                return;
-            }
-    
-            // Si no está registrado, mostrar mensaje de éxito en el registro
-            setSuccess('Registro con Google exitoso.');
-            setIsActive(false);
-    
+            setSuccess('Autenticación Exitosa');
         } catch (error) {
             if (error.code === 'auth/unauthorized-domain') {
                 setError('Debes usar el correo Unimet (@correo.unimet.edu.ve).');
@@ -176,19 +182,15 @@ const Login = () => {
         }
     };
 
-
-    
-
-    
     return (
         <div className={`container ${isActive ? "active" : ""}`} id="container">
             <div className="form-container sign-up">
                 <form onSubmit={handleSubmit}>
                     <h1>Crea una cuenta</h1>
                     <div className="social-icons">
-                    <a href="#" className="icon" onClick={() =>  handleGoogleSignUp()}>
-                        <i className="fa-brands fa-google-plus-g"></i>
-                    </a>
+                        <a href="#" className="icon" onClick={() => handleGoogleAuth()}>
+                            <i className="fa-brands fa-google-plus-g"></i>
+                        </a>
                     </div>
 
                     <input
@@ -237,7 +239,14 @@ const Login = () => {
                             <i className="fa-solid fa-circle-check"></i> {success}
                         </p>
                     )}
-                    <button type="submit">Registrate</button>
+                    {warning && (
+                        <p className="warning-message">
+                            <i className="fa-solid fa-triangle-exclamation"></i> {warning}
+                        </p>
+                    )}
+                    <button type="submit" disabled={loading}>
+                        {loading ? <i className="fa-solid fa-spinner" style={{ color: '#ffa200' }}></i> : 'Registrate'}
+                    </button>
                 </form>
             </div>
 
@@ -245,9 +254,9 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>Iniciar sesión</h1>
                     <div className="social-icons">
-                    <a href="#" className="icon" onClick={() => handleGoogleSignIn()}>
-                        <i className="fa-brands fa-google-plus-g"></i>
-                    </a>
+                        <a href="#" className="icon" onClick={() => handleGoogleAuth()}>
+                            <i className="fa-brands fa-google-plus-g"></i>
+                        </a>
                     </div>
                     <input
                         type="email"
@@ -277,8 +286,15 @@ const Login = () => {
                             <i className="fa-solid fa-circle-check"></i> {success}
                         </p>
                     )}
-                    <a href="#" onClick={(e) => handlePasswordReset(e)}>¿Olvidaste tu contraseña?</a>
-                    <button type="submit">Aceptar</button>
+                    {warning && (
+                        <p className="warning-message">
+                            <i className="fa-solid fa-triangle-exclamation"></i> {warning}
+                        </p>
+                    )}
+                    <a href="#" onClick={handlePasswordReset}>¿Olvidaste tu contraseña?</a>
+                    <button type="submit" disabled={loading}>
+                        {loading ? <i className="fa-solid fa-spinner" style={{ color: '#ffa200' }}></i> : 'Aceptar'}
+                    </button>
                 </form>
             </div>
 
