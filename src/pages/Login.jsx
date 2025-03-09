@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { app } from '../credenciales';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, fetchSignInMethodsForEmail } from 'firebase/auth';
+
 
 const auth = getAuth(app);
 
@@ -13,6 +14,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleRegisterClick = () => {
         setIsActive(true);
@@ -46,6 +48,11 @@ const Login = () => {
         setPasswordVisible(!passwordVisible);
     };
 
+    //Dominio para el formulario
+    const isValidEmail = (email) => {
+        return email.endsWith('@correo.unimet.edu.ve');
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -67,11 +74,11 @@ const Login = () => {
             return;
         }
 
-        const emailDomain = email.split('@')[1];
-        if (emailDomain !== 'correo.unimet.edu.ve') {
-            setError('¡Debes usar el correo Unimet!');
+        // Validación del dominio 
+        if (!isValidEmail(email)) {
+            setError('¡Debes usar el correo Unimet (@correo.unimet.edu.ve)!');
             setSuccess('');
-            return;
+            return; 
         }
 
         setError('');
@@ -98,45 +105,92 @@ const Login = () => {
         }
     };
 
-    const handleGoogleSignIn = async (e) => {
-        e.preventDefault();
-
+    const handleGoogleSignIn = async () => {
+        setError('');
+        setSuccess('');
+        setLoading(true);
         const provider = new GoogleAuthProvider();
-
         provider.setCustomParameters({
-            prompt: 'select_account'
+            hd: 'correo.unimet.edu.ve',
+            prompt: 'select_account',
         });
-
+    
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-
-            const emailDomain = user.email.split('@')[1];
-            if (emailDomain !== 'correo.unimet.edu.ve') {
-                await signOut(auth);
-                setError('¡Debes usar el correo Unimet!');
-                console.log('Usuario no autorizado:', user.email);
+            console.log('Usuario autenticado con Google:', user);
+    
+            // Inicio de sesión exitoso (sin verificación de registro)
+            setSuccess('Inicio de sesión con Google exitoso.');
+            setIsActive(false);
+    
+        } catch (error) {
+            if (error.code === 'auth/unauthorized-domain') {
+                setError('Debes usar el correo Unimet (@correo.unimet.edu.ve).');
+            } else {
+                setError(error.message || 'Error al autenticar con Google.');
+                console.error('Error al autenticar con Google:', error.message);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleGoogleSignUp = async () => {
+        setError('');
+        setSuccess('');
+        setLoading(true);
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            hd: 'correo.unimet.edu.ve',
+            prompt: 'select_account',
+        });
+    
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            console.log('Usuario autenticado con Google:', user);
+    
+            // Verificar si el usuario ya está registrado
+            const methods = await fetchSignInMethodsForEmail(auth, user.email);
+            if (methods && methods.length > 0) {
+                // El usuario ya está registrado, iniciar sesión automáticamente
+                setSuccess('Inicio de sesión con Google exitoso.');
+                setIsActive(false);
+                setLoading(false);
                 return;
             }
-
-            console.log('Usuario autenticado con Google:', user);
-            setSuccess('Inicio de sesión con Google exitoso.');
+    
+            // Si no está registrado, mostrar mensaje de éxito en el registro
+            setSuccess('Registro con Google exitoso.');
+            setIsActive(false);
+    
         } catch (error) {
-            setError(error.message);
-            console.error('Error al autenticar con Google:', error.message);
+            if (error.code === 'auth/unauthorized-domain') {
+                setError('Debes usar el correo Unimet (@correo.unimet.edu.ve).');
+            } else {
+                setError(error.message || 'Error al autenticar con Google.');
+                console.error('Error al autenticar con Google:', error.message);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
+
+    
+
+    
     return (
         <div className={`container ${isActive ? "active" : ""}`} id="container">
             <div className="form-container sign-up">
                 <form onSubmit={handleSubmit}>
                     <h1>Crea una cuenta</h1>
                     <div className="social-icons">
-                        <a href="#" className="icon" onClick={handleGoogleSignIn}>
-                            <i className="fa-brands fa-google-plus-g"></i>
-                        </a>
+                    <a href="#" className="icon" onClick={() =>  handleGoogleSignUp()}>
+                        <i className="fa-brands fa-google-plus-g"></i>
+                    </a>
                     </div>
+
                     <input
                         type="text"
                         placeholder="Nombre"
@@ -191,9 +245,9 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>Iniciar sesión</h1>
                     <div className="social-icons">
-                        <a href="#" className="icon" onClick={handleGoogleSignIn}>
-                            <i className="fa-brands fa-google-plus-g"></i>
-                        </a>
+                    <a href="#" className="icon" onClick={() => handleGoogleSignIn()}>
+                        <i className="fa-brands fa-google-plus-g"></i>
+                    </a>
                     </div>
                     <input
                         type="email"
@@ -223,7 +277,7 @@ const Login = () => {
                             <i className="fa-solid fa-circle-check"></i> {success}
                         </p>
                     )}
-                    <a href="#" onClick={(e) => e.preventDefault()}>¿Olvidaste tu contraseña?</a>
+                    <a href="#" onClick={(e) => handlePasswordReset(e)}>¿Olvidaste tu contraseña?</a>
                     <button type="submit">Aceptar</button>
                 </form>
             </div>

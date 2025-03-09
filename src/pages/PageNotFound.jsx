@@ -19,7 +19,7 @@ const PageNotFound = () => {
       textAlign: 'center',
       maxWidth: '600px',
       width: '100%',
-    },
+    },                    
     heading: {
       fontSize: '6em',
       margin: '0',
