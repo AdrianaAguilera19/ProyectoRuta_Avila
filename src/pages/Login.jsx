@@ -61,8 +61,9 @@ const Login = () => {
 
         const timeout = setTimeout(() => {
             setWarning('La operación está tardando más de lo esperado. Por favor, verifica tu conexión a internet.');
-        }, 10000); // 10 segundos
-
+        }, 10000); 
+        
+    
         try {
             if (isActive) {
                 await createUserWithEmailAndPassword(auth, email, password);
@@ -204,6 +205,7 @@ const Login = () => {
                         placeholder="Correo electrónico"
                         value={email}
                         onChange={handleEmailChange}
+                        maxLength={64}
                     />
                     <div className="password-container">
                         <input
@@ -211,6 +213,7 @@ const Login = () => {
                             placeholder="Contraseña"
                             value={password}
                             onChange={handlePasswordChange}
+                            maxLength={40}
                         />
                         <i
                             className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
@@ -263,6 +266,7 @@ const Login = () => {
                         placeholder="Correo electrónico o nombre de usuario"
                         value={email}
                         onChange={handleEmailChange}
+                        maxLength={64}
                     />
                     <div className="password-container">
                         <input
@@ -270,6 +274,7 @@ const Login = () => {
                             placeholder="Contraseña"
                             value={password}
                             onChange={handlePasswordChange}
+                            maxLength={40}
                         />
                         <i
                             className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
