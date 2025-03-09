@@ -854,7 +854,7 @@
       
       .mountain-deco,
       .path-deco {
-          display: none; /* Ocultar decoraciones en móvil */
+          display: none; /* Ocultar decoraciones en telefono */
       }
   }
 
