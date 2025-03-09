@@ -5,16 +5,19 @@ import PageNotFound from "./pages/pageNotFound";
 import Navbar from "./components/Navbar";
 
 export default function App() {
+  
   return (
-  <BrowserRouter>
-  <Navbar />
-    <Routes>
-      
-        <Route path='/' element={<HomePage/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='*' element={<PageNotFound/>}/>
-      
-    </Routes>
-  </BrowserRouter>
+  
+    <BrowserRouter>
+    <Navbar />
+      <Routes>
+        
+          <Route path='/' element={<HomePage/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='*' element={<PageNotFound/>}/>
+        
+      </Routes>
+    </BrowserRouter>
+  
   )
 }

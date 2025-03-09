@@ -1,7 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Lateralbar from './Lateralbar'; 
 
-const Navbar = () => {
+const Navbar = ({ user }) => { 
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const styles = {
     body: {
       fontFamily: 'sans-serif',
@@ -40,13 +58,13 @@ const Navbar = () => {
       fontSize: '1.2em',
       color: 'orange',
       textDecoration: 'none',
-      lineHeight: '1.2', // Asegura espacio adecuado entre líneas
+      lineHeight: '1.2',
     },
     logoContainer: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      textDecoration: 'none', // Elimina el subrayado del logo
+      textDecoration: 'none',
     },
     menu: {
       listStyle: 'none',
@@ -58,6 +76,11 @@ const Navbar = () => {
     menuA: {
       textDecoration: 'none',
       color: '#333',
+    },
+    menuAActive: {
+      textDecoration: 'none',
+      color: 'orange',
+      fontWeight: 'bold',
     },
     busqueda: {
       display: 'flex',
@@ -84,28 +107,23 @@ const Navbar = () => {
       alignItems: 'center',
       marginRight: '20px',
     },
-    usuario: {
-      border: '1px solid #ccc',
-      borderRadius: '50%',
-      width: '30px',
-      height: '30px',
+    usuarioContainer: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      marginRight: '20px',
+      gap: '10px',
       cursor: 'pointer',
     },
-    iconoUsuario: {
+    usuarioNombre: {
+      fontSize: '0.9em',
+      color: '#333',
+    },
+    usuarioIcono: {
       fontSize: '1.2em',
       color: '#666',
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer',
     },
   };
 
   return (
-    //Llamada a rutas
     <header style={styles.header}>
       <nav style={styles.barraNavegacion}>
         <div style={styles.grupoIzquierdo}>
@@ -116,16 +134,36 @@ const Navbar = () => {
 
           <ul style={styles.menu}>
             <li>
-              <Link to="/login" style={styles.menuA}>Inicia Sesión</Link>
+              <Link
+                to="/login"
+                style={location.pathname === '/login' ? styles.menuAActive : styles.menuA}
+              >
+                Inicia Sesión
+              </Link>
             </li>
             <li>
-              <Link to="/about" style={styles.menuA}>Conócenos</Link>
+              <Link
+                to="/about"
+                style={location.pathname === '/about' ? styles.menuAActive : styles.menuA}
+              >
+                Conócenos
+              </Link>
             </li>
             <li>
-              <Link to="/routes" style={styles.menuA}>Rutas</Link>
+              <Link
+                to="/routes"
+                style={location.pathname === '/routes' ? styles.menuAActive : styles.menuA}
+              >
+                Rutas
+              </Link>
             </li>
             <li>
-              <Link to="/contact" style={styles.menuA}>Contacto</Link>
+              <Link
+                to="/contact"
+                style={location.pathname === '/contact' ? styles.menuAActive : styles.menuA}
+              >
+                Contacto
+              </Link>
             </li>
           </ul>
         </div>
@@ -142,11 +180,23 @@ const Navbar = () => {
           <div style={styles.idioma}>
             <span role="img" aria-label="Bandera de España">🇪🇸</span>
           </div>
-          <button style={styles.usuario}>
-            <span style={styles.iconoUsuario}>👤</span>
-          </button>
+         
+          <div
+            style={styles.usuarioContainer}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span style={styles.usuarioIcono}>👤</span>
+          </div>
         </div>
       </nav>
+
+     
+      <Lateralbar
+    isOpen={isMenuOpen}
+    onClose={() => setIsMenuOpen(false)}
+    ref={menuRef}
+    user={user} 
+  />
     </header>
   );
 };
