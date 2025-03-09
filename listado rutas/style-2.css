@@ -1,0 +1,144 @@
+:root {
+  --text-rgb-83-83-83: #535353;
+  --accent-orange: #FF914D;
+  --background: #F7F9F9;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background);
+  padding: 2rem;
+}
+
+.rutas-homepage-1 {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.rectangle-3-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background-color: rgba(242, 243, 240, 0.8);
+  z-index: -1;
+}
+
+.text-39 {
+  font-size: 45px;
+  font-weight: 700;
+  color: var(--text-rgb-83-83-83);
+  margin-bottom: 2rem;
+}
+
+/* Contenedor flexible para las dos columnas */
+.flex-container {
+  display: flex;
+  gap: 2rem; /* Espacio entre las columnas */
+}
+
+/* Columna 1: Listado de rutas */
+.rutas-container {
+  flex: 2; /* Ocupa más espacio que el mapa */
+}
+
+.route-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.route-card:hover {
+  transform: translateX(10px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.text-31, .text-36, .text-37, .text-38, .text-3, .text-8, .text-9, .text-10 {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-rgb-83-83-83);
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-rgb-83-83-83);
+}
+
+.route-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.text-32, .text-33, .text-34, .text-35, .text-4, .text-5, .text-6, .text-7 {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-rgb-83-83-83);
+}
+
+.rating img {
+  width: 70px;
+  height: 70px;
+  margin-right: 4px;
+}
+
+/* Columna 2: Mapa */
+.map-column {
+  flex: 1; /* Ocupa menos espacio que el listado de rutas */
+  position: sticky;
+  top: 2rem; /* Fija el mapa en la parte superior */
+  align-self: flex-start; /* Alinea el mapa en la parte superior */
+}
+
+.map-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  padding: 1rem;
+}
+
+.main-map {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+/* Imágenes decorativas */
+.image-24-11,
+.image-25-12,
+.image-26-13,
+.image-27-14 {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: -50px;
+  width: 300px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column; /* Cambia a una columna en móvil */
+  }
+
+  .map-column {
+    order: -1; /* Mapa arriba en móvil */
+    margin-bottom: 2rem;
+    position: static; /* Quita el sticky en móvil */
+  }
+}
+  
