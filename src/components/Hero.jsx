@@ -4,10 +4,10 @@ const Hero = () => {
   const styles = {
     hero: {
       display: 'flex',
-      paddingBottom: '20px', // Reducir el padding inferior
+      paddingBottom: '20px', 
       flexDirection: 'column',
       position: 'relative',
-      minHeight: '400px', // Reducir la altura del contenedor
+      minHeight: '400px', 
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -21,7 +21,7 @@ const Hero = () => {
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '200px 80px 0', // Reducir el padding superior
+      padding: '200px 80px 0', 
     },
     backgroundImage: {
       position: 'absolute',
@@ -36,9 +36,9 @@ const Hero = () => {
       aspectRatio: '1.65',
       objectFit: 'contain',
       objectPosition: 'center',
-      width: '400px', // Reducir el tamaño del logo
+      width: '400px', 
       zIndex: '10',
-      marginBottom: '-20px', // Ajustar el margen inferior
+      marginBottom: '-20px', 
       maxWidth: '100%',
     },
     visuallyHidden: {
@@ -55,7 +55,7 @@ const Hero = () => {
     '@media (max-width: 991px)': {
       heroContent: {
         maxWidth: '100%',
-        padding: '100px 20px 0', // Ajustar el padding para móviles
+        padding: '100px 20px 0', 
       },
       foregroundImage: {
         marginBottom: '10px',

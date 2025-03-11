@@ -62,7 +62,7 @@ const MissionVisionObjective = () => {
   return (
     <section style={styles.misionVisionObjetivo}>
     <div style={styles.card}>
-      <i className="fas fa-rocket" style={styles.icon}></i> {/* Icono de misión */}
+      <i className="fas fa-rocket" style={styles.icon}></i> 
       <h2 style={styles.title}>MISIÓN</h2>
       <p style={styles.text}>
         Nuestra misión es brindar a los estudiantes de la Universidad Metropolitana una
@@ -71,7 +71,7 @@ const MissionVisionObjective = () => {
       </p>
     </div>
     <div style={styles.card}>
-      <i className="fas fa-globe" style={styles.icon}></i> {/* Icono de visión */}
+      <i className="fas fa-globe" style={styles.icon}></i> 
       <h2 style={styles.title}>VISIÓN</h2>
       <p style={styles.text}>
         Promover la participación estudiantil y el desarrollo integral de los estudiantes
@@ -79,7 +79,7 @@ const MissionVisionObjective = () => {
       </p>
     </div>
     <div style={styles.card}>
-      <i className="fas fa-bullseye" style={styles.icon}></i> {/* Icono de objetivo */}
+      <i className="fas fa-bullseye" style={styles.icon}></i> 
       <h2 style={styles.title}>OBJETIVO</h2>
       <p style={styles.text}>
         A partir de la creación de “Ruta Ávila UNIMET” se busca proporcionar una plataforma
