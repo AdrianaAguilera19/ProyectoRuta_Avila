@@ -1,15 +1,16 @@
 import React from 'react';
+import backgroundImage from 'https://images.squarespace-cdn.com/content/v1/64ad6c705468b0201e17bb93/1722000877109-LE69F9DFG194AF0TZPTG/shutterstock_2200880881.jpg'; 
 
 const Contact = () => {
   const styles = {
     contacto: {
-        textAlign: 'center',
-        padding: '90px 10px', 
-        backgroundImage: 'url("/src/assets/contactimg.jpg")',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        margin: 0, 
-      },
+      textAlign: 'center',
+      padding: '90px 10px',
+      backgroundImage: `url(${backgroundImage})`, 
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      margin: 0,
+    },
     recuadroFormulario: {
       backgroundColor: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '15px',
