@@ -192,11 +192,11 @@ const Navbar = ({ user }) => {
 
      
       <Lateralbar
-    isOpen={isMenuOpen}
-    onClose={() => setIsMenuOpen(false)}
-    ref={menuRef}
-    user={user} 
-  />
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        ref={menuRef}
+        user={user} 
+      />
     </header>
   );
 };

@@ -1,40 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { app } from '../credenciales';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import React from 'react';
+import Hero from '../components/Hero';
+import Welcome from '../components/Welcome';
+import MissionVisionObjective from '../components/MissionVisionObj';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
-const auth = getAuth(app);
-
-const Home = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    //Cambios en el estado de autenticación
-    const unsubscribe = onAuthStateChanged(auth, (userConnected) => {
-      console.log(userConnected);
-      if (userConnected) {
-        setUser(userConnected); 
-      } else {
-        setUser(null); 
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
+const HomePage = () => {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Bienvenido a Ruta Ávila Unimet</h1>
-      <p>Explora nuestras rutas y aventuras.</p>
-      {user ? (
-        <div>
-          <h2>Usuario conectado:</h2>
-          <p>Correo: {user.email}</p>
-        </div>
-      ) : (
-        <h2>No hay usuario conectado</h2>
-      )}
+    <div style={{ margin: 0, padding: 0 }}>
+      <Hero />
+      <Welcome />
+      <MissionVisionObjective />
+      <Contact />
+      <Footer />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
