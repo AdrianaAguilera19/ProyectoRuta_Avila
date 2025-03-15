@@ -1,15 +1,31 @@
 import React from 'react';
+import { supabase } from '../supabase/client';  
 
 const Contact = () => {
+  const [backgroundImageUrl, setBackgroundImageUrl] = React.useState('');
+
+  React.useEffect(() => {
+    const fetchBackgroundImageUrl = async () => {
+      const { data } = await supabase
+        .storage
+        .from('images') 
+        .getPublicUrl('contactimg.jpg'); 
+      console.log('URL de la imagen de fondo:', data.publicUrl);
+      setBackgroundImageUrl(data.publicUrl);
+    };
+
+    fetchBackgroundImageUrl();
+  }, []);
+
   const styles = {
     contacto: {
-        textAlign: 'center',
-        padding: '90px 10px', 
-        backgroundImage: 'url("/src/assets/contactimg.jpg")',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        margin: 0, 
-      },
+      textAlign: 'center',
+      padding: '90px 10px',
+      backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none', // Usar la URL de Supabase
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      margin: 0,
+    },
     recuadroFormulario: {
       backgroundColor: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '15px',
@@ -69,7 +85,7 @@ const Contact = () => {
     },
     boton: {
       backgroundColor: '#FFA500',
-      background: 'linear-gradient(135deg, #FFA500,rgb(255, 121, 4))',
+      background: 'linear-gradient(135deg, #FFA500, rgb(255, 121, 4))',
       color: 'white',
       border: 'none',
       padding: '12px 24px',
@@ -86,7 +102,7 @@ const Contact = () => {
     },
     botonCancelar: {
       backgroundColor: '#FF4500',
-      background: 'linear-gradient(135deg,rgb(255, 162, 0),rgb(238, 36, 0))',
+      background: 'linear-gradient(135deg, rgb(255, 162, 0), rgb(238, 36, 0))',
       color: 'white',
       border: 'none',
       padding: '12px 24px',

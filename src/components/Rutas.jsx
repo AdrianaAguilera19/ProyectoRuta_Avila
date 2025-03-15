@@ -1,5 +1,5 @@
 import React from 'react';
-import RutaCard from './RutaCard'; // Importamos el componente RutaCard
+import RutaCard from './RutaCard'; 
 
 const rutas = [
   {
@@ -9,8 +9,8 @@ const rutas = [
     dificultad: "Moderada",
     distancia: "3,9km",
     tiempo: "Est. 1h 55min",
-    imagen: "src/assets/image-40.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-40.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 2,
@@ -19,8 +19,8 @@ const rutas = [
     dificultad: "Difícil",
     distancia: "6,4km",
     tiempo: "Est. 3h 14min",
-    imagen: "src/assets/image-10-43.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-10-43.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 3,
@@ -29,8 +29,8 @@ const rutas = [
     dificultad: "Difícil",
     distancia: "16,4km",
     tiempo: "Est. 8h 21min",
-    imagen: "src/assets/image-8-41.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-8-41.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 4,
@@ -39,8 +39,8 @@ const rutas = [
     dificultad: "Difícil",
     distancia: "7,4km",
     tiempo: "Est. 4h 12min",
-    imagen: "src/assets/image-9-42.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-9-42.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 5,
@@ -49,8 +49,8 @@ const rutas = [
     dificultad: "Difícil",
     distancia: "8,8km",
     tiempo: "Est. 10h 40min",
-    imagen: "src/assets/image-24-11.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-24-11.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 6,
@@ -59,8 +59,8 @@ const rutas = [
     dificultad: "Moderada",
     distancia: "6,3km",
     tiempo: "Est. 2h 38min",
-    imagen: "src/assets/image-25-12.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-25-12.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 7,
@@ -69,8 +69,8 @@ const rutas = [
     dificultad: "Difícil",
     distancia: "4,6km",
     tiempo: "Est. 7h 30min",
-    imagen: "src/assets/image-26-13.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-26-13.png", 
+    rating: "union-15.svg", 
   },
   {
     id: 8,
@@ -79,25 +79,24 @@ const rutas = [
     dificultad: "Moderada",
     distancia: "5,1km",
     tiempo: "Est. 2h 25min",
-    imagen: "src/assets/image-27-14.png",
-    rating: "src/assets/union-15.svg",
+    imagen: "image-27-14.png", 
+    rating: "union-15.svg", 
   },
-  
 ];
 
 export default function Rutas() {
-    const rutasContainerStyle = {
-      flex: '2',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1.5rem',
-    };
-  
-    return (
-      <div className="rutas-container" style={rutasContainerStyle}>
-        {rutas.map((ruta) => (
-          <RutaCard key={ruta.id} ruta={ruta} />
-        ))}
-      </div>
-    );
-  }
+  const rutasContainerStyle = {
+    flex: '2',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+  };
+
+  return (
+    <div className="rutas-container" style={rutasContainerStyle}>
+      {rutas.map((ruta) => (
+        <RutaCard key={ruta.id} ruta={ruta} />
+      ))}
+    </div>
+  );
+}
