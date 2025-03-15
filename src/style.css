@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-*{
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
 
-body {
+body.login-page {
     background-image: url('https://adrianvisual.com/wp-content/uploads/2016/04/img_20160403_163436_zpsqut5yxvn.jpg?w=1024');
     background-size: cover;
     background-position: center;
@@ -17,7 +18,6 @@ body {
     flex-direction: column;
     height: 100vh;
 }
-
 
 .container{
     background-color: #fff;
@@ -77,17 +77,16 @@ body {
     height: 100%;
 }
 
-.container input{
+.container input {
     background-color: #eee;
     border: none;
-    margin: 8px 0;
+    margin: 8px auto; 
     padding: 10px 15px;
     font-size: 13px;
     border-radius: 8px;
     width: 100%;
     outline: none;
 }
-
 .form-container{
     position: absolute;
     top: 0;
@@ -165,7 +164,7 @@ body {
 .toggle{
     background-color: #d0ac1a;
     height: 100%;
-    background: linear-gradient(to right, #6193e8, #1e633f);
+    background: linear-gradient(to right, #61afeb, #1e633f);
     color: #fff;
     position: relative;
     left: -100%;
@@ -173,6 +172,7 @@ body {
     width: 200%;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
+
 }
 
 .container.active .toggle{
@@ -209,4 +209,73 @@ body {
 
 .container.active .toggle-right{
     transform: translateX(200%);
+}
+
+
+.error-message {
+    color: #ff0000;
+    background-color: #ffe6e6;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.success-message {
+    color: #008000;
+    background-color: #e6ffe6;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.warning-message {
+    background-color: #fff3cd; 
+    color: #856404; 
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ffeeba; 
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+    margin: 8px auto; 
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.password-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; 
+}
+
+.password-icon:hover {
+    color: #333;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    margin-right: 8px; 
 }
