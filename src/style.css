@@ -279,3 +279,50 @@ body.login-page {
     animation: spin 1s linear infinite;
     margin-right: 8px; 
 }
+
+.mision-container {
+    display: flex; /* Para organizar imagen y texto en paralelo */
+    width: 100%;
+    max-width: 1200px; /* O el ancho que prefieras */
+    margin: 0 auto; /* Centrar el contenido */
+    flex-direction: column;
+    
+  }
+  
+  .image-container {
+   margin-bottom: 2rem;
+  }
+  
+  .image-container img {
+    margin-bottom: 2rem;
+  }
+  
+  .text-container {
+    flex: 1; /* El texto ocupa la otra parte del contenedor */
+    background-color: #FFA500; /* Color naranja de fondo */
+    color: white; /* Color del texto */
+    padding: 40px;
+    border-radius: 8px;
+  }
+  
+  .mision-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .mision-text {
+    line-height: 1.6;
+  }
+
+  .vision-container {
+    .mision-container {
+        display: flex; /* Para organizar imagen y texto en paralelo */
+        width: 100%;
+        max-width: 1200px; /* O el ancho que prefieras */
+        margin: 0 auto; /* Centrar el contenido */
+        flex-direction: column;
+        
+      } /* Altura completa de la pantalla */
+  }
+  
+  

@@ -143,8 +143,8 @@ const Navbar = ({ user }) => {
             </li>
             <li>
               <Link
-                to="/about"
-                style={location.pathname === '/about' ? styles.menuAActive : styles.menuA}
+                to="/conocenos"
+                style={location.pathname === '/conocenos' ? styles.menuAActive : styles.menuA}
               >
                 Conócenos
               </Link>

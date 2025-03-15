@@ -4,6 +4,8 @@ import HomePage from "./pages/homePage";
 import PageNotFound from "./pages/pageNotFound";
 import Navbar from "./components/Navbar";
 import Rutes from "./pages/Rutes";
+import Conocenos from "./pages/Conocenos";
+
 export default function App() {
   
   return (
@@ -15,6 +17,8 @@ export default function App() {
           <Route path='/' element={<HomePage/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path= '/routes' element ={<Rutes/>}/>
+          <Route path='/conocenos' element={<Conocenos/>}/>
+
           <Route path='*' element={<PageNotFound/>}/>
         
       </Routes>
