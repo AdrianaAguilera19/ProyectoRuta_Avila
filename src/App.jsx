@@ -5,26 +5,23 @@ import PageNotFound from "./pages/pageNotFound";
 import Navbar from "./components/Navbar";
 import Rutes from "./pages/Rutes";
 import Conocenos from "./pages/Conocenos";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 
 export default function App() {
   
   return (
-  
-    <BrowserRouter>
-    <Navbar />
-      <Routes>
-        
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path= '/routes' element ={<Rutes/>}/>
-          <Route path='/conocenos' element={<Conocenos/>}/>
-
-          <Route path='*' element={<PageNotFound/>}/>
-        
-      </Routes>
-      
-    </BrowserRouter>
-  
-  )
+    <PayPalScriptProvider options={{ clientId: "AcSpzb5TqZYoNKDCXzrtCbJ8-KAGQW-HhAyDS9WUBCeNdjoSZq_AP1G0ypieXWM0181spQjyf-yjIefu" }}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/routes' element={<Rutes />} />
+          <Route path='/conocenos' element={<Conocenos />} />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </PayPalScriptProvider>
+  );
 }
