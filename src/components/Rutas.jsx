@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import RutaCard from './RutaCard'; 
 
 const rutas = [
@@ -95,7 +96,9 @@ export default function Rutas() {
   return (
     <div className="rutas-container" style={rutasContainerStyle}>
       {rutas.map((ruta) => (
-        <RutaCard key={ruta.id} ruta={ruta} />
+        <Link to={`/ruta/${ruta.id}`} key={ruta.id} style={{ textDecoration: 'none' }}>
+          <RutaCard ruta={ruta} />
+        </Link>
       ))}
     </div>
   );

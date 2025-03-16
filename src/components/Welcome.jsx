@@ -104,7 +104,7 @@ const Welcome = () => {
               Estudiantes de la Metropolitana, ¡vivan la aventura en el Ávila!
               Excursiones guiadas, rutas seguras y guías expertos los esperan.
               Conecten con la naturaleza y hagan comunidad. ¡Vean las rutas y
-              elijan su próxima expedición! AAA
+              elijan su próxima expedición! 
             </p>
           </div>
          
