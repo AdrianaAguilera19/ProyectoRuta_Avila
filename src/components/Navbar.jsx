@@ -165,6 +165,7 @@ const Navbar = ({ user }) => {
                 Contacto
               </Link>
             </li>
+    
           </ul>
         </div>
 

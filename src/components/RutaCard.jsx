@@ -1,23 +1,23 @@
 import React from 'react';
-import { supabase } from '../supabase/client'; // Importa Supabase
+import { Link } from 'react-router-dom';
+import { supabase } from '../supabase/client';
 
 export default function RutaCard({ ruta }) {
   const [imagenUrl, setImagenUrl] = React.useState('');
   const [ratingUrl, setRatingUrl] = React.useState('');
 
+  
   React.useEffect(() => {
     const fetchImageUrls = async () => {
-      // Obtener la URL de la imagen de la ruta
       const { data: imagenData } = await supabase
         .storage
-        .from('images') // Nombre del bucket en Supabase
-        .getPublicUrl(ruta.imagen); // Nombre del archivo de la imagen
+        .from('images') 
+        .getPublicUrl(ruta.imagen); 
 
-      // Obtener la URL de la imagen de rating
-      const { data: ratingData } = await supabase
+        const { data: ratingData } = await supabase
         .storage
-        .from('images') // Nombre del bucket en Supabase
-        .getPublicUrl(ruta.rating); // Nombre del archivo de la imagen
+        .from('images')
+        .getPublicUrl(ruta.rating); 
 
       setImagenUrl(imagenData.publicUrl);
       setRatingUrl(ratingData.publicUrl);
@@ -26,12 +26,21 @@ export default function RutaCard({ ruta }) {
     fetchImageUrls();
   }, [ruta.imagen, ruta.rating]);
 
+  // Estilos
   const routeCardStyle = {
     background: 'var(--white)',
     borderRadius: 'var(--border-radius)',
     padding: '1.8rem',
     boxShadow: 'var(--shadow)',
     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+    textDecoration: 'none',
+    display: 'block', 
+    color: 'gray', 
+  };
+
+  const hoverStyle = {
+    transform: 'scale(1.05)', 
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   };
 
   const headerStyle = {
@@ -44,14 +53,14 @@ export default function RutaCard({ ruta }) {
   const h2Style = {
     fontSize: '26px',
     fontWeight: '600',
-    color: 'var(--text-rgb-83-83-83)',
+    color: '#535353',
     margin: '0',
   };
 
   const priceStyle = {
     fontSize: '24px',
     fontWeight: '500',
-    color: 'var(--text-rgb-83-83-83)',
+    color: '#535353',
     margin: '0',
   };
 
@@ -67,7 +76,7 @@ export default function RutaCard({ ruta }) {
     gap: '0.5rem',
     fontSize: '19px',
     fontWeight: '500',
-    color: 'var(--text-rgb-83-83-83)',
+    color: '#535353',
   };
 
   const ratingImgStyle = {
@@ -77,7 +86,19 @@ export default function RutaCard({ ruta }) {
   };
 
   return (
-    <div className="route-card" style={routeCardStyle}>
+    <Link
+      to={`/ruta/${ruta.id}`} 
+      className="route-card"
+      style={routeCardStyle}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = hoverStyle.transform;
+        e.currentTarget.style.boxShadow = hoverStyle.boxShadow;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'var(--shadow)';
+      }}
+    >
       <div className="header" style={headerStyle}>
         <img src={imagenUrl} alt="icono" />
         <h2 className="text-31" style={h2Style}>{ruta.nombre}</h2>
@@ -94,9 +115,9 @@ export default function RutaCard({ ruta }) {
           <i className="fas fa-clock"></i> {ruta.tiempo}
         </span>
         <div className="rating">
-          <img src={ratingUrl} alt="estrella" style={ratingImgStyle} />
+          <img src={ratingUrl} alt="estrella" style={ratingImgStyle} /> 
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
