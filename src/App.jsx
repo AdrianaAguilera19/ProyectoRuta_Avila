@@ -7,7 +7,7 @@ import Rutes from "./pages/Rutes";
 import Conocenos from "./pages/Conocenos";
 import RutaDetalles from "./pages/RutaDetalles";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-
+import ExploraAprende from "./pages/ExploraAprende";
 
 export default function App() {
   return (
@@ -21,6 +21,7 @@ export default function App() {
           <Route path='/conocenos' element={<Conocenos />} />
           <Route path='/ruta/:id' element={<RutaDetalles />} />
           <Route path='*' element={<PageNotFound />} />
+          <Route path = '/explora-aprende' element={<ExploraAprende />} />
         </Routes>
       </BrowserRouter>
     </PayPalScriptProvider>

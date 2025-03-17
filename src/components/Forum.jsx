@@ -56,7 +56,7 @@ const Forum = ({ topic }) => {
   );
 };
 
-// Estilos acomodard para el foro
+// Estilos  para el foro
 const styles = {
   container: {
     border: "1px solid #ccc",
