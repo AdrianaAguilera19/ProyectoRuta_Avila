@@ -2,10 +2,12 @@ import React from 'react';
 import TituloR from '../components/TituloR';
 import Rutas from '../components/Rutas';
 import Mapa from '../components/Mapa';
+import Forum from "../components/Forum"; // Importe el foro
+import { useState } from "react";
 
 export default function Rutes() {
   const navbarHeight = '80px'; 
-
+  const [showForum, setShowForum] =useState(false); //estado para el foro
   const rutasHomepageStyle = {
     position: 'relative',
     maxWidth: '1200px',
@@ -38,6 +40,16 @@ export default function Rutes() {
         <Rutas />
         <Mapa />
       </div>
-    </div>
-  );
+    
+   {/* Botón para abrir/cerrar el foro */}
+   <div style={{ textAlign: "center", margin: "20px" }}>
+   <button onClick={() => setShowForum(!showForum)}>
+     {showForum ? "Cerrar Foro" : "Abrir Foro"}
+   </button>
+ </div>
+
+ {/* Mostrar el foro solo si el usuario lo abre */}
+ {showForum && <Forum topic="Rutas" />}
+</div>
+  )
 }

@@ -8,6 +8,7 @@ import Conocenos from "./pages/Conocenos";
 import RutaDetalles from "./pages/RutaDetalles";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
+
 export default function App() {
   return (
     <PayPalScriptProvider options={{ clientId: "AcSpzb5TqZYoNKDCXzrtCbJ8-KAGQW-HhAyDS9WUBCeNdjoSZq_AP1G0ypieXWM0181spQjyf-yjIefu" }}>
