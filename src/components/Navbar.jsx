@@ -165,6 +165,14 @@ const Navbar = ({ user }) => {
                 Contacto
               </Link>
             </li>
+            <li>
+              <Link
+                to="/Galeria"
+                style={location.pathname === '/galeria' ? styles.menuAActive : styles.menuA}
+              >
+                Galería
+              </Link>
+            </li>
           </ul>
         </div>
 
