@@ -7,7 +7,11 @@ import Rutes from "./pages/Rutes";
 import Conocenos from "./pages/Conocenos";
 import RutaDetalles from "./pages/RutaDetalles";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 import Galeria from './pages/Galeria';
+
+import ExploraAprende from "./pages/ExploraAprende";
+
 
 export default function App() {
   return (
@@ -15,6 +19,7 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/routes" element={<Rutes />} />
@@ -22,6 +27,15 @@ export default function App() {
           <Route path="/ruta/:id" element={<RutaDetalles />} />
           <Route path="/galeria" element={<Galeria />} />
           <Route path="*" element={<PageNotFound />} />
+
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/routes' element={<Rutes />} />
+          <Route path='/conocenos' element={<Conocenos />} />
+          <Route path='/ruta/:id' element={<RutaDetalles />} />
+          <Route path='*' element={<PageNotFound />} />
+          <Route path = '/explora-aprende' element={<ExploraAprende />} />
+
         </Routes>
       </BrowserRouter>
     </PayPalScriptProvider>

@@ -2,14 +2,40 @@ import React from 'react';
 import TituloR from '../components/TituloR';
 import Rutas from '../components/Rutas';
 import Mapa from '../components/Mapa';
+import Forum from "../components/Forum";
+import { useState } from "react";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom'; // Importa Link si estás usando react-router-dom
+
+// Estilo para el botón "Explora y Aprende"
+const ExploraAprendeButton = styled(Link)`
+  color: #535353;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-left: 10px; // Espacio entre los botones
+`;
+
+// Estilo para el botón "Abrir Foro" (para que coincida con el estilo de "Explora y Aprende")
+const AbrirForoButton = styled.button`
+  color: #535353;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+`;
 
 export default function Rutes() {
-  const navbarHeight = '80px'; 
+  const navbarHeight = '80px';
+  const [showForum, setShowForum] = useState(false);
 
   const rutasHomepageStyle = {
     position: 'relative',
     maxWidth: '1200px',
-    margin: `${navbarHeight} auto 2rem auto`, 
+    margin: `${navbarHeight} auto 2rem auto`,
     padding: '2rem',
   };
 
@@ -38,6 +64,19 @@ export default function Rutes() {
         <Rutas />
         <Mapa />
       </div>
+
+      {/* Contenedor para los botones */}
+      <div style={{ textAlign: "center", margin: "20px" }}>
+        <AbrirForoButton onClick={() => setShowForum(!showForum)}>
+          {showForum ? "Cerrar Foro" : "Abrir Foro"}
+        </AbrirForoButton>
+        <ExploraAprendeButton to="/explora-aprende">
+          Explora y Aprende
+        </ExploraAprendeButton>
+      </div>
+
+      {/* Mostrar el foro solo si el usuario lo abre */}
+      {showForum && <Forum topic="Rutas" />}
     </div>
   );
 }

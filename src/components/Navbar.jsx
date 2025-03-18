@@ -165,6 +165,7 @@ const Navbar = ({ user }) => {
                 Contacto
               </Link>
             </li>
+
             <li>
               <Link
                 to="/Galeria"
@@ -173,6 +174,9 @@ const Navbar = ({ user }) => {
                 Galería
               </Link>
             </li>
+
+    
+
           </ul>
         </div>
 
