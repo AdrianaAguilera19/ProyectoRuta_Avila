@@ -1,0 +1,266 @@
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.admin-header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.action-button {
+  background-color: #28a745;
+  color: white !important;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.back-button {
+  background: #0070BA;
+  color: white !important;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: transform 0.3s;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+}
+
+.routes-list h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.routes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.route-item {
+  border: none;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s;
+}
+
+.route-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.route-info {
+  padding: 15px;
+}
+
+.route-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.meta-info span {
+  background-color: #f5f5f5;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.route-preview {
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.route-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.route-actions {
+  display: flex;
+  padding: 15px;
+  gap: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.edit-button, .delete-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  text-align: center;
+  flex: 1;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.edit-button {
+  background-color: #0070BA;
+  color: white !important;
+}
+
+.edit-button:hover {
+  background-color: #005a96;
+  transform: translateY(-2px);
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.delete-confirm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 10;
+  color: white;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.confirm-yes, .confirm-no {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.confirm-yes {
+  background-color: #dc3545;
+  color: white;
+}
+
+.confirm-yes:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.confirm-no {
+  background-color: #6c757d;
+  color: white;
+}
+
+.confirm-no:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border-left: 5px solid #28a745;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border-left: 5px solid #dc3545;
+}
+
+/* Estilos para las cards de acciones (si quieres mantenerlos) */
+.admin-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.admin-card {
+  border: none;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.admin-card h3 {
+  margin: 20px 0 0;
+  color: #333;
+  font-size: 1.4rem;
+}
+
+.icon {
+  font-size: 2.5rem;
+  display: block;
+}
+
+/* Colores para cada acción */
+.new-route .icon { color: #28a745; }
+.edit-routes .icon { color: #0070BA; }
+.delete-routes .icon { color: #dc3545; }

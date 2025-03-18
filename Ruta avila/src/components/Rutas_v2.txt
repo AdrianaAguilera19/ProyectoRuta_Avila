@@ -1,0 +1,20 @@
+import React from 'react';
+import RutaCard from './RutaCard';
+
+// Esta constante se exporta para que pueda ser usada como datos iniciales en otros lugares
+// Pero no afecta al funcionamiento del componente
+export const rutasIniciales = []; // Vacío ya que ahora usamos datos de RutasData.js
+
+export default function Rutas({ rutas }) {
+  if (!rutas || rutas.length === 0) {
+    return <div className="no-rutas">No hay rutas disponibles</div>;
+  }
+
+  return (
+    <div className="rutas-container">
+      {rutas.map((ruta) => (
+        <RutaCard key={ruta.id} ruta={ruta} />
+      ))}
+    </div>
+  );
+}
