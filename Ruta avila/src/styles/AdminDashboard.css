@@ -1,0 +1,65 @@
+/* src/styles/AdminDashboard.css */
+.admin-dashboard {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  
+  .back-button {
+    background: #0070BA;
+    color: white !important;
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.3s;
+  }
+  
+  .back-button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .admin-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  
+  .admin-card {
+    border: none;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+  }
+  
+  .admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  }
+  
+  .admin-card h3 {
+    margin: 20px 0 0;
+    color: #333;
+    font-size: 1.4rem;
+  }
+  
+  .icon {
+    font-size: 2.5rem;
+    display: block;
+  }
+  
+  /* Colores para cada acción */
+  .new-route .icon { color: #28a745; }
+  .edit-routes .icon { color: #0070BA; }
+  .delete-routes .icon { color: #dc3545; }
