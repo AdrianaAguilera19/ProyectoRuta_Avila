@@ -202,8 +202,7 @@ const FechasDisponibles = styled(Link)`
   text-decoration: underline;
   font-weight: 500;
   font-size: 1rem;
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: pointer;
 `;
 
 const VolverRutas = styled(Link)`
