@@ -14,21 +14,24 @@ import FeedbackButton from '../components/Feedback';
 const ExploraAprendeButton = styled(Link)`
   color: #535353;
   text-decoration: underline;
+  text-decoration-thickness: 2px; /* Aumenta el grosor del subrayado */
+  text-underline-offset: 3px; /* Ajusta la distancia del subrayado */
   font-weight: 500;
   font-size: 1rem;
-  margin-left: 10px;
 `;
 
-// Estilo para el botón "Abrir Foro"
 const AbrirForoButton = styled.button`
   color: #535353;
   text-decoration: underline;
+  text-decoration-thickness: 2px; /* Aumenta el grosor del subrayado */
+  text-underline-offset: 3px; /* Ajusta la distancia del subrayado */
   font-weight: 500;
   font-size: 1rem;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  outline: none;
 `;
 
 export default function Rutes() {
@@ -86,6 +89,13 @@ export default function Rutes() {
     gap: '2rem',
   };
 
+  const buttonContainerStyle = {
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+  };
+
   return (
     <div className="rutas-homepage-1" style={rutasHomepageStyle}>
       <div className="rectangle-3-2" style={rectangle32Style}></div>
@@ -95,19 +105,22 @@ export default function Rutes() {
         <Mapa />
       </div>
 
-      <div style={{ textAlign: "center", margin: "20px" }}>
+      <div style={buttonContainerStyle}>
         <AbrirForoButton onClick={() => setShowForum(!showForum)}>
           {showForum ? "Cerrar Foro" : "Abrir Foro"}
         </AbrirForoButton>
         <ExploraAprendeButton to="/explora-aprende">
           Explora y Aprende
         </ExploraAprendeButton>
+      </div>
+
+      {showForum && <Forum topic="Rutas" user={userInfo} />}
+
+      <div style={{ textAlign: "center", margin: "20px" }}>
         <FeedbackButton to="/feedback">
           Feedback
         </FeedbackButton>
       </div>
-
-      {showForum && <Forum topic="Rutas" user={userInfo} />}
     </div>
   );
 }
