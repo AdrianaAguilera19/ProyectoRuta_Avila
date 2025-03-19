@@ -185,36 +185,6 @@ const RadioInput = styled.input`
   cursor: pointer;
 `;
 
-const BotonPaypal = styled.button`
-  background: #0070ba;
-  color: white;
-  border: none;
-  padding: 18px 45px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 112, 186, 0.3);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  @media (max-width: 576px) {
-    width: 100%;
-    justify-content: center;
-    padding: 15px;
-  }
-`;
-
 const Enlaces = styled.div`
   margin-top: 40px;
   display: flex;
@@ -227,13 +197,12 @@ const Enlaces = styled.div`
   }
 `;
 
-const FechasDisponibles = styled.span`
+const FechasDisponibles = styled(Link)`
   color: #535353;
   text-decoration: underline;
   font-weight: 500;
   font-size: 1rem;
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: pointer;
 `;
 
 const VolverRutas = styled(Link)`
@@ -318,40 +287,39 @@ function RutaDetalles() {
           </Dificultades>
 
           <PayPalButtons
-        style={{
-          layout: "horizontal",
-          color: "gold",
-          shape: "rect",
-          label: "paypal",
-        }}
-        createOrder={(data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  value: '10.00',
-                },
-              },
-            ],
-          });
-        }}
-        onApprove={(data, actions) => {
-          return actions.order.capture().then((details) => {
-            setTimeout(() => {
-              toast.success('Pago exitoso');
-            }, 1000); 
-          });
-        }}
-        onError={(err) => {
-          toast.error('Error en el pago');
-          console.error(err);
-        }}
-      />
-
+            style={{
+              layout: "horizontal",
+              color: "gold",
+              shape: "rect",
+              label: "paypal",
+            }}
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: '10.00',
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={(data, actions) => {
+              return actions.order.capture().then((details) => {
+                setTimeout(() => {
+                  toast.success('Pago exitoso');
+                }, 1000); 
+              });
+            }}
+            onError={(err) => {
+              toast.error('Error en el pago');
+              console.error(err);
+            }}
+          />
         </Descripcion>
 
         <Enlaces>
-          <FechasDisponibles>Ver fechas disponibles</FechasDisponibles>
+          <FechasDisponibles to="/Calendario">Ver fechas disponibles</FechasDisponibles>
           <VolverRutas to="/routes">Volver a Rutas</VolverRutas>
         </Enlaces>
       </SeccionDerecha>
@@ -361,4 +329,4 @@ function RutaDetalles() {
   );
 }
 
-export default RutaDetalles;
+export default RutaDetalles;
