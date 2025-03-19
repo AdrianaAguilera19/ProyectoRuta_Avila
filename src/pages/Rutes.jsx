@@ -14,8 +14,8 @@ import FeedbackButton from '../components/Feedback';
 const ExploraAprendeButton = styled(Link)`
   color: #535353;
   text-decoration: underline;
-  text-decoration-thickness: 2px; /* Aumenta el grosor del subrayado */
-  text-underline-offset: 3px; /* Ajusta la distancia del subrayado */
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
   font-weight: 500;
   font-size: 1rem;
 `;
@@ -23,8 +23,8 @@ const ExploraAprendeButton = styled(Link)`
 const AbrirForoButton = styled.button`
   color: #535353;
   text-decoration: underline;
-  text-decoration-thickness: 2px; /* Aumenta el grosor del subrayado */
-  text-underline-offset: 3px; /* Ajusta la distancia del subrayado */
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
   font-weight: 500;
   font-size: 1rem;
   background: none;
@@ -34,35 +34,64 @@ const AbrirForoButton = styled.button`
   outline: none;
 `;
 
+const AdminButton = styled(Link)`
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    background-color: #0070ba;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    z-index: 10;
+    &:hover {
+        background-color: #005f9e;
+    }
+`;
+
 export default function Rutes() {
   const navbarHeight = '80px';
   const [showForum, setShowForum] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('user_id', user.uid)
-            .single();
-
-          if (error) {
-            console.error('Error al cargar desde Supabase:', error);
-          } else if (data) {
-            setUserInfo(data);
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          console.log('Estado de autenticación cambiado:', user);
+          if (user) {
+              console.log('Usuario autenticado:', user.uid);
+              try {
+                  const { data, error } = await supabase
+                      .from('profiles')
+                      .select('*')
+                      .eq('user_id', user.uid)
+                      .single();
+                  console.log('Datos de Supabase:', data);
+                  console.log('Error de Supabase:', error);
+                  if (error) {
+                      console.error('Error al cargar desde Supabase:', error);
+                  } else if (data) {
+                      setUserInfo(data);
+                      if (user.uid === 'YiFEDEAYJ4PiOuozKA4sj1it62s1') {
+                          setIsAdmin(true);
+                          console.log('Usuario es administrador.');
+                      } else {
+                          setIsAdmin(false);
+                          console.log('Usuario no es administrador.');
+                      }
+                  }
+              } catch (error) {
+                  console.error('Error al cargar desde Supabase:', error);
+              }
+          } else {
+              setUserInfo(null);
+              setIsAdmin(false);
+              console.log('Usuario no autenticado.');
           }
-        } catch (error) {
-          console.error('Error al cargar desde Supabase:', error);
-        }
-      } else {
-        setUserInfo(null);
-      }
-    });
-
-    return () => unsubscribe();
+      });
+      return () => unsubscribe();
   }, []);
 
   const rutasHomepageStyle = {
@@ -102,7 +131,14 @@ export default function Rutes() {
       <TituloR />
       <div className="flex-container" style={flexContainerStyle}>
         <Rutas />
-        <Mapa />
+        <div style={{ position: 'relative', width: '50%' }}>
+          <Mapa />
+          {isAdmin && (
+            <AdminButton to="/admin-rutas">
+              Administrar Rutas
+            </AdminButton>
+          )}
+        </div>
       </div>
 
       <div style={buttonContainerStyle}>
