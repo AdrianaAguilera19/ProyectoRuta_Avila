@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { rutas } from '../components/RutasData.jsx';
 import { supabase } from '../supabase/client';
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import toast from 'react-hot-toast';
@@ -185,36 +184,6 @@ const RadioInput = styled.input`
   cursor: pointer;
 `;
 
-const BotonPaypal = styled.button`
-  background: #0070ba;
-  color: white;
-  border: none;
-  padding: 18px 45px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 112, 186, 0.3);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  @media (max-width: 576px) {
-    width: 100%;
-    justify-content: center;
-    padding: 15px;
-  }
-`;
-
 const Enlaces = styled.div`
   margin-top: 40px;
   display: flex;
@@ -227,13 +196,12 @@ const Enlaces = styled.div`
   }
 `;
 
-const FechasDisponibles = styled.span`
+const FechasDisponibles = styled(Link)`
   color: #535353;
   text-decoration: underline;
   font-weight: 500;
   font-size: 1rem;
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: pointer;
 `;
 
 const VolverRutas = styled(Link)`
@@ -245,32 +213,45 @@ const VolverRutas = styled(Link)`
 
 function RutaDetalles() {
   const { id } = useParams();
-  const ruta = rutas.find((r) => r.id === parseInt(id));
+  const [ruta, setRuta] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [dificultadSeleccionada, setDificultadSeleccionada] = useState('');
-  const [imagenesUrls, setImagenesUrls] = useState([]);
 
   useEffect(() => {
-    const fetchImageUrls = async () => {
+    const fetchRuta = async () => {
       try {
-        const urls = await Promise.all(
-          ruta.imagenes.map(async (imagen) => {
-            const { data, error } = await supabase
-              .storage
-              .from('images')
-              .getPublicUrl(imagen);
-            if (error) throw error;
-            return data.publicUrl;
-          })
-        );
-        setImagenesUrls(urls);
+        const { data, error } = await supabase
+          .from('ruta_detalles')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          // Transformar los datos para que coincidan con la estructura esperada
+          const rutaTransformada = {
+            ...data,
+            imagenes: [data.imagen3, data.imagen4],
+          };
+          setRuta(rutaTransformada);
+        }
       } catch (error) {
-        console.error("Error al cargar las imágenes:", error);
-        toast.error("Error al cargar las imágenes");
+        console.error('Error fetching ruta:', error.message);
+        toast.error('Error al cargar los detalles de la ruta');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchImageUrls();
-  }, [ruta.imagenes]);
+    fetchRuta();
+  }, [id]);
+
+  if (loading) {
+    return <div>Cargando detalles de la ruta...</div>;
+  }
 
   if (!ruta) {
     return <div>Ruta no encontrada</div>;
@@ -284,8 +265,8 @@ function RutaDetalles() {
     <Contenedor>
       <SeccionIzquierda>
         <ContenedorImagenes>
-          <ImagenPrincipal src={imagenesUrls[0] || null} alt="Sendero principal" />
-          <ImagenSecundaria src={imagenesUrls[1] || null} alt="Detalles del sendero" />
+          <ImagenPrincipal src={ruta.imagenes[0]} alt="Sendero principal" />
+          <ImagenSecundaria src={ruta.imagenes[1]} alt="Detalles del sendero" />
         </ContenedorImagenes>
       </SeccionIzquierda>
 
@@ -301,57 +282,80 @@ function RutaDetalles() {
           <ParrafoDescripcion>{ruta.descripcion}</ParrafoDescripcion>
 
           <Dificultades>
-            {ruta.dificultades.map((dificultad, index) => (
-              <Dificultad key={index}>
-                <DificultadOpcion className={dificultadSeleccionada === dificultad ? 'seleccionada' : ''}>
-                  <RadioInput
-                    type="radio"
-                    name="dificultad"
-                    value={dificultad}
-                    checked={dificultadSeleccionada === dificultad}
-                    onChange={handleDificultadChange}
-                  />
-                  <strong> {dificultad.split(':')[0]}:</strong> {dificultad.split(':')[1]}
-                </DificultadOpcion>
-              </Dificultad>
-            ))}
+            <Dificultad>
+              <DificultadOpcion className={dificultadSeleccionada === 'sencilla' ? 'seleccionada' : ''}>
+                <RadioInput
+                  type="radio"
+                  name="dificultad"
+                  value="sencilla"
+                  checked={dificultadSeleccionada === 'sencilla'}
+                  onChange={handleDificultadChange}
+                />
+                <strong>Sencilla:</strong> {ruta.Sencilla}
+              </DificultadOpcion>
+            </Dificultad>
+
+            <Dificultad>
+              <DificultadOpcion className={dificultadSeleccionada === 'moderada' ? 'seleccionada' : ''}>
+                <RadioInput
+                  type="radio"
+                  name="dificultad"
+                  value="moderada"
+                  checked={dificultadSeleccionada === 'moderada'}
+                  onChange={handleDificultadChange}
+                />
+                <strong>Moderada:</strong> {ruta.Moderada}
+              </DificultadOpcion>
+            </Dificultad>
+
+            <Dificultad>
+              <DificultadOpcion className={dificultadSeleccionada === 'dificil' ? 'seleccionada' : ''}>
+                <RadioInput
+                  type="radio"
+                  name="dificultad"
+                  value="dificil"
+                  checked={dificultadSeleccionada === 'dificil'}
+                  onChange={handleDificultadChange}
+                />
+                <strong>Difícil:</strong> {ruta.Dificil}
+              </DificultadOpcion>
+            </Dificultad>
           </Dificultades>
 
           <PayPalButtons
-        style={{
-          layout: "horizontal",
-          color: "gold",
-          shape: "rect",
-          label: "paypal",
-        }}
-        createOrder={(data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  value: '10.00',
-                },
-              },
-            ],
-          });
-        }}
-        onApprove={(data, actions) => {
-          return actions.order.capture().then((details) => {
-            setTimeout(() => {
-              toast.success('Pago exitoso');
-            }, 1000); 
-          });
-        }}
-        onError={(err) => {
-          toast.error('Error en el pago');
-          console.error(err);
-        }}
-      />
-
+            style={{
+              layout: "horizontal",
+              color: "gold",
+              shape: "rect",
+              label: "paypal",
+            }}
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: '10.00',
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={(data, actions) => {
+              return actions.order.capture().then((details) => {
+                setTimeout(() => {
+                  toast.success('Pago exitoso');
+                }, 1000); 
+              });
+            }}
+            onError={(err) => {
+              toast.error('Error en el pago');
+              console.error(err);
+            }}
+          />
         </Descripcion>
 
         <Enlaces>
-          <FechasDisponibles>Ver fechas disponibles</FechasDisponibles>
+          <FechasDisponibles to="/Calendario">Ver fechas disponibles</FechasDisponibles>
           <VolverRutas to="/routes">Volver a Rutas</VolverRutas>
         </Enlaces>
       </SeccionDerecha>

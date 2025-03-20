@@ -1,19 +1,19 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { app } from '../credenciales';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
-import '../login.css'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, onAuthStateChanged } from 'firebase/auth';
+import { supabase } from '../supabase/client'; // Importar Supabase
+import '../login.css';
 
 const auth = getAuth(app);
 
 const Login = () => {
-    
-    useEffect(() => {
-        document.body.classList.add("login-page");
-        return () => {
-          document.body.classList.remove("login-page");
-        };
-      }, []);
-    
+  useEffect(() => {
+    document.body.classList.add("login-page");
+    return () => {
+      document.body.classList.remove("login-page");
+    };
+  }, []);
+
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +24,7 @@ const Login = () => {
   const [warning, setWarning] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState('estudiante'); // 'estudiante' o 'guia'
 
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -121,10 +122,32 @@ const Login = () => {
 
     try {
       if (isActive) {
-        await createUserWithEmailAndPassword(auth, email, password);
-        console.log('Usuario registrado:', email);
-        setSuccess('Registro exitoso.');
+        // Registrar al usuario en Firebase
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Guardar el tipo de usuario en Supabase
+        const { data, error } = await supabase
+          .from('profiles')
+          .upsert(
+            {
+              user_id: user.uid,
+              email: user.email,
+              nombre: name,
+              type: userType, // Guardar el tipo de usuario
+            },
+            { onConflict: 'user_id' }
+          );
+
+        if (error) {
+          console.error('Error al guardar en Supabase:', error);
+          setError('Ocurrió un error al guardar los datos del usuario.');
+        } else {
+          console.log('Usuario registrado y tipo guardado en Supabase:', data);
+          setSuccess('Registro exitoso.');
+        }
       } else {
+        // Iniciar sesión
         await signInWithEmailAndPassword(auth, email, password);
         console.log('Usuario autenticado:', email);
         setSuccess('Inicio de sesión exitoso.');
@@ -244,168 +267,179 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="login-container">
-    <div className={`container ${isActive ? "active" : ""}`} id="container">
-      <div className="form-container sign-up">
-        <form onSubmit={handleSubmit}>
-          <h1>Crea una cuenta</h1>
-          <div className="social-icons">
-            <a href="#" className="icon" onClick={handleGoogleAuth}>
-              <i className="fa-brands fa-google-plus-g"></i>
-            </a>
-          </div>
+      <div className={`container ${isActive ? "active" : ""}`} id="container">
+        <div className="form-container sign-up">
+          <form onSubmit={handleSubmit}>
+            <h1>Crea una cuenta</h1>
+            <div className="social-icons">
+              <a href="#" className="icon" onClick={handleGoogleAuth}>
+                <i className="fa-brands fa-google-plus-g"></i>
+              </a>
+            </div>
 
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={name}
-            onChange={handleNameChange}
-          />
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={handleEmailChange}
-            maxLength={64}
-          />
-          <div className="password-container">
+            {/* Switch para seleccionar tipo de usuario */}
+            <div
+              className="user-type-switch"
+              onClick={() => setUserType(userType === 'estudiante' ? 'guia' : 'estudiante')}
+            >
+              <div className={`switch ${userType === 'guia' ? 'active' : ''}`}>
+                <div className="slider-text">
+                  {userType === 'estudiante' ? 'Estudiante' : 'Guía'}
+                </div>
+              </div>
+            </div>
+
             <input
-              type={passwordVisible ? "text" : "password"}
-              placeholder="Contraseña"
-              value={password}
-              onChange={handlePasswordChange}
-              maxLength={40}
+              type="text"
+              placeholder="Nombre"
+              value={name}
+              onChange={handleNameChange}
             />
-            <i
-              className={`fa ${
-                passwordVisible ? "fa-eye-slash" : "fa-eye"
-              } password-icon`}
-              onClick={togglePasswordVisibility}
-            ></i>
-          </div>
-          <div className="password-container">
             <input
-              type={passwordVisible ? "text" : "password"}
-              placeholder="Confirmar contraseña"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={handleEmailChange}
+              maxLength={64}
             />
-            <i
-              className={`fa ${
-                passwordVisible ? "fa-eye-slash" : "fa-eye"
-              } password-icon`}
-              onClick={togglePasswordVisibility}
-            ></i>
-          </div>
-          {error && (
-            <p className="error-message">
-              <i className="fa-solid fa-circle-exclamation"></i> {error}
-            </p>
-          )}
-          {success && (
-            <p className="success-message">
-              <i className="fa-solid fa-circle-check"></i> {success}
-            </p>
-          )}
-          {warning && (
-            <p className="warning-message">
-              <i className="fa-solid fa-triangle-exclamation"></i> {warning}
-            </p>
-          )}
-          <button type="submit" disabled={loading}>
-            {loading ? (
-              <i className="fa-solid fa-spinner" style={{ color: "#ffa200" }}></i>
-            ) : (
-              "Registrate"
+            <div className="password-container">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder="Contraseña"
+                value={password}
+                onChange={handlePasswordChange}
+                maxLength={40}
+              />
+              <i
+                className={`fa ${
+                  passwordVisible ? "fa-eye-slash" : "fa-eye"
+                } password-icon`}
+                onClick={togglePasswordVisibility}
+              ></i>
+            </div>
+            <div className="password-container">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder="Confirmar contraseña"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              <i
+                className={`fa ${
+                  passwordVisible ? "fa-eye-slash" : "fa-eye"
+                } password-icon`}
+                onClick={togglePasswordVisibility}
+              ></i>
+            </div>
+            {error && (
+              <p className="error-message">
+                <i className="fa-solid fa-circle-exclamation"></i> {error}
+              </p>
             )}
-          </button>
-        </form>
-      </div>
-
-      <div className="form-container sign-in">
-        <form onSubmit={handleSubmit}>
-          <h1>Iniciar sesión</h1>
-          <div className="social-icons">
-            <a href="#" className="icon" onClick={handleGoogleAuth}>
-              <i className="fa-brands fa-google-plus-g"></i>
-            </a>
-          </div>
-          <input
-            type="email"
-            placeholder="Correo electrónico o nombre de usuario"
-            value={email}
-            onChange={handleEmailChange}
-            maxLength={64}
-          />
-          <div className="password-container">
-            <input
-              type={passwordVisible ? "text" : "password"}
-              placeholder="Contraseña"
-              value={password}
-              onChange={handlePasswordChange}
-              maxLength={40}
-            />
-            <i
-              className={`fa ${
-                passwordVisible ? "fa-eye-slash" : "fa-eye"
-              } password-icon`}
-              onClick={togglePasswordVisibility}
-            ></i>
-          </div>
-          {error && (
-            <p className="error-message">
-              <i className="fa-solid fa-circle-exclamation"></i> {error}
-            </p>
-          )}
-          {success && (
-            <p className="success-message">
-              <i className="fa-solid fa-circle-check"></i> {success}
-            </p>
-          )}
-          {warning && (
-            <p className="warning-message">
-              <i className="fa-solid fa-triangle-exclamation"></i> {warning}
-            </p>
-          )}
-          <a href="#" onClick={handlePasswordReset}>
-            ¿Olvidaste tu contraseña?
-          </a>
-          <button type="submit" disabled={loading}>
-            {loading ? (
-              <i className="fa-solid fa-spinner" style={{ color: "#ffa200" }}></i>
-            ) : (
-              "Aceptar"
+            {success && (
+              <p className="success-message">
+                <i className="fa-solid fa-circle-check"></i> {success}
+              </p>
             )}
-          </button>
-        </form>
-      </div>
-
-      <div className="toggle-container">
-        <div className="toggle">
-          <div className="toggle-panel toggle-left">
-            <h1>¡Bienvenido!</h1>
-            <p>
-              Ingresa tus datos para tener acceso a la experiencia Ruta Avila
-            </p>
-            <button className="hidden" id="login" onClick={handleLoginClick}>
-              Iniciar sesión
+            {warning && (
+              <p className="warning-message">
+                <i className="fa-solid fa-triangle-exclamation"></i> {warning}
+              </p>
+            )}
+            <button type="submit" disabled={loading}>
+              {loading ? (
+                <i className="fa-solid fa-spinner" style={{ color: "#ffa200" }}></i>
+              ) : (
+                "Registrate"
+              )}
             </button>
-          </div>
+          </form>
+        </div>
 
-          <div className="toggle-panel toggle-right">
-            <h1>¡Bienvenido de nuevo!</h1>
-            <p>¡Es hora de explorar el Ávila! Reserva tu excursión ahora</p>
-            <button className="hidden" id="register" onClick={handleRegisterClick}>
-              Registrarse
+        <div className="form-container sign-in">
+          <form onSubmit={handleSubmit}>
+            <h1>Iniciar sesión</h1>
+            <div className="social-icons">
+              <a href="#" className="icon" onClick={handleGoogleAuth}>
+                <i className="fa-brands fa-google-plus-g"></i>
+              </a>
+            </div>
+            <input
+              type="email"
+              placeholder="Correo electrónico o nombre de usuario"
+              value={email}
+              onChange={handleEmailChange}
+              maxLength={64}
+            />
+            <div className="password-container">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder="Contraseña"
+                value={password}
+                onChange={handlePasswordChange}
+                maxLength={40}
+              />
+              <i
+                className={`fa ${
+                  passwordVisible ? "fa-eye-slash" : "fa-eye"
+                } password-icon`}
+                onClick={togglePasswordVisibility}
+              ></i>
+            </div>
+            {error && (
+              <p className="error-message">
+                <i className="fa-solid fa-circle-exclamation"></i> {error}
+              </p>
+            )}
+            {success && (
+              <p className="success-message">
+                <i className="fa-solid fa-circle-check"></i> {success}
+              </p>
+            )}
+            {warning && (
+              <p className="warning-message">
+                <i className="fa-solid fa-triangle-exclamation"></i> {warning}
+              </p>
+            )}
+            <a href="#" onClick={handlePasswordReset}>
+              ¿Olvidaste tu contraseña?
+            </a>
+            <button type="submit" disabled={loading}>
+              {loading ? (
+                <i className="fa-solid fa-spinner" style={{ color: "#ffa200" }}></i>
+              ) : (
+                "Aceptar"
+              )}
             </button>
+          </form>
+        </div>
+
+        <div className="toggle-container">
+          <div className="toggle">
+            <div className="toggle-panel toggle-left">
+              <h1>¡Bienvenido!</h1>
+              <p>
+                Ingresa tus datos para tener acceso a la experiencia Ruta Avila
+              </p>
+              <button className="hidden" id="login" onClick={handleLoginClick}>
+                Iniciar sesión
+              </button>
+            </div>
+
+            <div className="toggle-panel toggle-right">
+              <h1>¡Bienvenido de nuevo!</h1>
+              <p>¡Es hora de explorar el Ávila! Reserva tu excursión ahora</p>
+              <button className="hidden" id="register" onClick={handleRegisterClick}>
+                Registrarse
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
