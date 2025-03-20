@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { auth } from '../credenciales'; 
+import { signOut } from 'firebase/auth';
 
 const Lateralbar = ({ isOpen, onClose, user }) => {
-
   const styles = {
     menuLateral: {
       position: 'fixed',
-      top: '66px', 
+      top: '66px',
       right: isOpen ? '0' : '-300px',
       width: '250px',
       height: 'calc(100% - 60px)',
       backgroundColor: 'rgba(255, 255, 255, 0.57)',
       boxShadow: '-2px 0 5px rgba(0, 0, 0, 0.1)',
       transition: 'right 0.3s ease',
-      zIndex: 1000, 
+      zIndex: 1000,
       padding: '20px',
     },
     menuLateralHeader: {
@@ -34,29 +35,38 @@ const Lateralbar = ({ isOpen, onClose, user }) => {
       color: '#333',
       textDecoration: 'none',
       display: 'block',
+      background: 'none',
+      border: 'none',
+      width: '100%',
+      textAlign: 'left',
     },
     menuLateralOpcionHover: {
       backgroundColor: '#f0f0f0',
     },
     usuarioNombre: {
-        fontSize: '1.1em',
-        fontWeight: 'bold',
-        marginBottom: '20px',
-        color: '#333',
-      },
+      fontSize: '1.1em',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+      color: '#333',
+    },
   };
 
-
+  // Función para cerrar sesión
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); 
+      console.log('Usuario cerró sesión correctamente');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   return (
-
-
     <div style={styles.menuLateral}>
-         
-    
       {user && (
         <h4 style={styles.usuarioNombre}>
-          {user.email} 
+          {user.email}
         </h4>
       )}
       <Link
@@ -66,13 +76,15 @@ const Lateralbar = ({ isOpen, onClose, user }) => {
       >
         Ver Perfil
       </Link>
-      <Link
-        to="/logout"
+      <button
         style={styles.menuLateralOpcion}
-        onClick={onClose}
+        onClick={() => {
+          handleLogout();
+          onClose(); 
+        }}
       >
         Cerrar Sesión
-      </Link>
+      </button>
     </div>
   );
 };
