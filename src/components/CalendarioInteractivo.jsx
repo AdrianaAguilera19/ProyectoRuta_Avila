@@ -34,19 +34,19 @@ function CalendarioInteractivo() {
           title: "Sabas Nieves",
           start: fecha,
           end: fecha,
-          path: "/ruta/1", // Redirige al ID 1
+          path: "/ruta/4", // Redirige al ID 1
         });
         eventosFijos.push({
           title: "Humboldt",
           start: fecha,
           end: fecha,
-          path: "/ruta/2", // Redirige al ID 2
+          path: "/ruta/5", // Redirige al ID 2
         });
         eventosFijos.push({
           title: "Naiguatá",
           start: fecha,
           end: fecha,
-          path: "/ruta/3", // Redirige al ID 3
+          path: "/ruta/6", // Redirige al ID 3
         });
       }
     }

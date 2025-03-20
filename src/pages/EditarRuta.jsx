@@ -5,7 +5,7 @@ import { supabase } from '../supabase/client';
 
 export default function EditarRuta() {
   const navigate = useNavigate();
-  const { id } = useParams(); // Obtén el ID de la ruta desde la URL
+  const { id } = useParams(); 
 
   const [datosBasicos, setDatosBasicos] = useState({
     nombre: '',
@@ -24,7 +24,7 @@ export default function EditarRuta() {
 
   const [dificultad, setDificultad] = useState('');
 
-  // Cargar los datos de la ruta existente
+  
   useEffect(() => {
     const cargarRuta = async () => {
       try {
@@ -33,7 +33,7 @@ export default function EditarRuta() {
         const { data, error } = await supabase
           .from('ruta_detalles')
           .select('*')
-          .eq('id', id) // Usa el ID directamente
+          .eq('id', id) 
           .single();
 
         if (error) {
@@ -44,7 +44,7 @@ export default function EditarRuta() {
 
         console.log('Datos de la ruta:', data);
 
-        // Establecer los datos en el estado
+        
         setDatosBasicos({
           nombre: data.nombre,
           distancia: data.distancia,
@@ -67,7 +67,7 @@ export default function EditarRuta() {
     };
 
     cargarRuta();
-  }, [id]); // Usa id como dependencia
+  }, [id]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,7 +107,7 @@ export default function EditarRuta() {
       const { data, error } = await supabase
         .from('ruta_detalles')
         .update(rutaActualizada)
-        .eq('id', id); // Usa el ID directamente
+        .eq('id', id); 
 
       if (error) {
         console.error('Error al actualizar la ruta:', error.message);

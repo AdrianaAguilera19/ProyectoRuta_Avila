@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { app } from '../credenciales';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, onAuthStateChanged } from 'firebase/auth';
-import { supabase } from '../supabase/client'; // Importar Supabase
+import { supabase } from '../supabase/client'; 
 import '../login.css';
 
 const auth = getAuth(app);

@@ -380,12 +380,10 @@ const AccountSettings = () => {
 
       <Section>
         <SectionTitle>Rutas Culminadas</SectionTitle>
-        {/* Aquí puedes agregar las rutas culminadas */}
       </Section>
 
       <Section>
         <SectionTitle>Rutas Pendientes</SectionTitle>
-        {/* Aquí puedes agregar las rutas pendientes */}
       </Section>
 
       {isEditing ? (

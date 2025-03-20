@@ -65,7 +65,7 @@ const Footer = () => {
         <p style={styles.texto}>
           <i className="fas fa-envelope" style={styles.icono}></i> E-Mail: rutaavilaunimet@unimet.com
         </p>
-        <button style={styles.boton}>SOLICITAR MÁS INFORMACIÓN</button>
+       
       </div>
     </footer>
   );
