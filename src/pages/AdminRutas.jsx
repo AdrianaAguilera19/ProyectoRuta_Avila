@@ -246,6 +246,7 @@ export default function AdminRutas() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [guiaAsignado, setGuiaAsignado] = useState({});
 
   useEffect(() => {
     const fetchRutas = async () => {
@@ -282,6 +283,14 @@ export default function AdminRutas() {
   if (loading) return <div>Cargando rutas...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const guias = [
+    "Luis Rodríguez", "María González", "Carlos Sánchez", "Ana Pérez",
+    "Pedro Martínez", "Sofía López", "Jorge Ramírez", "Laura Gómez",
+    "Diego Herrera", "Valentina Torres", "Andrés Mendoza", "Camila Rojas",
+    "Fernando Castro", "Isabel Vargas", "Ricardo Núñez", "Gabriela Silva",
+    "Hugo Morales", "Elena Paredes", "Raúl Cordero", "Patricia Espinoza"
+  ];
+
   return (
     <AdminDashboardContainer>
       <AdminHeader>
@@ -314,6 +323,26 @@ export default function AdminRutas() {
                 <DeleteButton onClick={() => setShowDeleteConfirm(ruta.id)}>
                   ️ Eliminar
                 </DeleteButton>
+                <select 
+                  value={guiaAsignado[ruta.id] || ''}
+                  onChange={(e) => setGuiaAsignado(prev => ({...prev,
+                  [ruta.id]: e.target.value
+      }))}
+              style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  backgroundColor: "#fff",
+                  flex: "1",
+                  minWidth: "180px"
+    }}
+  >
+             <option value="">Asignar guía</option>
+                 {guias.map((guia, index) => (
+             <option key={index} value={guia}>{guia}</option>
+    ))}
+              </select>
+                
                 {showDeleteConfirm === ruta.id && (
                   <DeleteConfirm>
                     <p>¿Estás seguro de eliminar esta ruta?</p>
