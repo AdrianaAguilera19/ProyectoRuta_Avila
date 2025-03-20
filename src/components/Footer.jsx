@@ -1,74 +1,55 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const Footer = () => {
-  const styles = {
-    footer: {
-      backgroundColor: '#2c3e50',
-      background: 'linear-gradient(135deg,rgb(30, 63, 38),rgb(10, 83, 156))',
-      textAlign: 'center',
-      padding: '40px 20px',
-      color: '#fff',
-      fontFamily: '"Poppins", sans-serif',
-    },
-    contenido: {
-      maxWidth: '800px',
-      margin: '0 auto',
-    },
-    texto: {
-      fontSize: '1rem',
-      marginBottom: '15px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '10px',
-    },
-    icono: {
-      fontSize: '1.2rem',
-    },
-    boton: {
-      backgroundColor: '#FFA500',
-      background: 'linear-gradient(135deg, #FFA500, #FF8C00)',
-      color: 'white',
-      border: 'none',
-      padding: '12px 24px',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      fontSize: '1rem',
-      fontWeight: '600',
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-      marginTop: '20px',
-      ':hover': {
-        transform: 'translateY(-2px)',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      },
-    },
-    '@media (max-width: 768px)': {
-      footer: {
-        padding: '30px 15px',
-      },
-      texto: {
-        fontSize: '0.9rem',
-      },
-      boton: {
-        padding: '10px 20px',
-        fontSize: '0.9rem',
-      },
-    },
-  };
+    return (
+        <FooterContainer>
+            <Content>
+                <Text>
+                    <Icon className="fas fa-phone" /> Teléfono: +58 212 508 1000
+                </Text>
+                <Text>
+                    <Icon className="fas fa-envelope" /> E-Mail: rutaavilaunimet@unimet.com
+                </Text>
 
-  return (
-    <footer style={styles.footer}>
-      <div style={styles.contenido}>
-        <p style={styles.texto}>
-          <i className="fas fa-phone" style={styles.icono}></i> Teléfono: +58 212 508 1000
-        </p>
-        <p style={styles.texto}>
-          <i className="fas fa-envelope" style={styles.icono}></i> E-Mail: rutaavilaunimet@unimet.com
-        </p>
-       
-      </div>
-    </footer>
-  );
+            </Content>
+        </FooterContainer>
+    );
 };
+
+const FooterContainer = styled.footer`
+    background: linear-gradient(135deg, rgb(30, 63, 38), rgb(10, 83, 156));
+    text-align: center;
+    padding: 40px 20px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    width: 100%; // Asegura que el footer ocupe todo el ancho
+
+    @media (max-width: 768px) {
+        padding: 30px 15px;
+    }
+`;
+
+const Content = styled.div`
+    max-width: 800px;
+    margin: 0 auto;
+`;
+
+const Text = styled.p`
+    font-size: 1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 0.9rem;
+    }
+`;
+
+const Icon = styled.i`
+    font-size: 1.2rem;
+`;
 
 export default Footer;
