@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Lateralbar from './Lateralbar';
 import SearchResults from '../components/SearchResults';
-import { supabase } from '../supabase/client'; 
+import { supabase } from '../supabase/client';
 
 const Navbar = ({ user }) => {
   const location = useLocation();
@@ -178,46 +178,72 @@ const Navbar = ({ user }) => {
           </Link>
 
           <ul style={styles.menu}>
-            <li>
-              <Link
-                to="/login"
-                style={location.pathname === '/login' ? styles.menuAActive : styles.menuA}
-              >
-                Inicia Sesión
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/conocenos"
-                style={location.pathname === '/conocenos' ? styles.menuAActive : styles.menuA}
-              >
-                Conócenos
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/routes"
-                style={location.pathname === '/routes' ? styles.menuAActive : styles.menuA}
-              >
-                Rutas
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contacto"
-                style={location.pathname === '/contacto' ? styles.menuAActive : styles.menuA}
-              >
-                Contacto
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/Galeria"
-                style={location.pathname === '/galeria' ? styles.menuAActive : styles.menuA}
-              >
-                Galería
-              </Link>
-            </li>
+            {/* Mostrar opciones según el tipo de usuario */}
+            {user?.type === 'guia' ? (
+              // Opciones para el guía
+              <>
+                <li>
+                  <Link
+                    to="/mis-rutas"
+                    style={location.pathname === '/mis-rutas' ? styles.menuAActive : styles.menuA}
+                  >
+                    Mis Rutas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/reservas"
+                    style={location.pathname === '/reservas' ? styles.menuAActive : styles.menuA}
+                  >
+                    Reservas
+                  </Link>
+                </li>
+              </>
+            ) : (
+              // Opciones para usuarios normales
+              <>
+                <li>
+                  <Link
+                    to="/login"
+                    style={location.pathname === '/login' ? styles.menuAActive : styles.menuA}
+                  >
+                    Inicia Sesión
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/conocenos"
+                    style={location.pathname === '/conocenos' ? styles.menuAActive : styles.menuA}
+                  >
+                    Conócenos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/routes"
+                    style={location.pathname === '/routes' ? styles.menuAActive : styles.menuA}
+                  >
+                    Rutas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contacto"
+                    style={location.pathname === '/contacto' ? styles.menuAActive : styles.menuA}
+                  >
+                    Contacto
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/galeria"
+                    style={location.pathname === '/galeria' ? styles.menuAActive : styles.menuA}
+                  >
+                    Galería
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
 
