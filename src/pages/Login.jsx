@@ -306,33 +306,29 @@ const Login = () => {
               maxLength={64}
             />
             <div className="password-container">
-              <input
+            <input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Contraseña"
                 value={password}
                 onChange={handlePasswordChange}
                 maxLength={40}
-              />
-              <i
-                className={`fa ${
-                  passwordVisible ? "fa-eye-slash" : "fa-eye"
-                } password-icon`}
+            />
+            <i
+                className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
                 onClick={togglePasswordVisibility}
-              ></i>
+            ></i>
             </div>
             <div className="password-container">
-              <input
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Confirmar contraseña"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-              />
-              <i
-                className={`fa ${
-                  passwordVisible ? "fa-eye-slash" : "fa-eye"
-                } password-icon`}
-                onClick={togglePasswordVisibility}
-              ></i>
+                <input
+                    type={passwordVisible ? "text" : "password"}
+                    placeholder="Confirmar contraseña"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                />
+                <i
+                    className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"} password-icon`}
+                    onClick={togglePasswordVisibility}
+                ></i>
             </div>
             {error && (
               <p className="error-message">

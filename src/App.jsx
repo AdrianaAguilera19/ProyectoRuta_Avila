@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
-import PageNotFound from "./pages/PageNotFound"; 
+import PageNotFound from "./pages/PageNotFound";
 import Navbar from "./components/Navbar";
 import Rutes from "./pages/Rutes";
 import Conocenos from "./pages/Conocenos";
@@ -14,7 +14,7 @@ import EditarRuta from "./pages/EditarRuta";
 import Galeria from './pages/Galeria';
 import AccountSettings from "./pages/PerfilUsuario";
 import ExploraAprende from "./pages/ExploraAprende";
-
+import Contacto from "./pages/Contacto";
 
 export default function App() {
   return (
@@ -22,7 +22,6 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/routes" element={<Rutes />} />
@@ -30,13 +29,13 @@ export default function App() {
           <Route path="/ruta/:id" element={<RutaDetalles />} />
           <Route path="/galeria" element={<Galeria />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path = 'perfil' element = {<AccountSettings />}/>
-          <Route path = '/explora-aprende' element={<ExploraAprende />} />
-          <Route path = '/calendario' element={<Calendario />} />
-          <Route path="/ruta/:id" element={<RutaDetalles />} />
-          <Route path = '/agregar-ruta' element = {<AgregarRuta />} />
-          <Route path = '/admin-rutas' element = {<AdminRutas />} />
+          <Route path='/perfil' element={<AccountSettings />} />
+          <Route path='/explora-aprende' element={<ExploraAprende />} />
+          <Route path='/calendario' element={<Calendario />} />
+          <Route path="/agregar-ruta" element={<AgregarRuta />} />
+          <Route path="/admin-rutas" element={<AdminRutas />} />
           <Route path="/editar-ruta/:id" element={<EditarRuta />} />
+          <Route path="/contacto" element={<Contacto />} />
         </Routes>
       </BrowserRouter>
     </PayPalScriptProvider>

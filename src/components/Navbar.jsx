@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Lateralbar from './Lateralbar'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Lateralbar from './Lateralbar';
+import SearchResults from '../components/SearchResults';
+import { supabase } from '../supabase/client'; 
 
-const Navbar = ({ user }) => { 
+const Navbar = ({ user }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,11 +26,37 @@ const Navbar = ({ user }) => {
     };
   }, []);
 
+  const handleSearch = async () => {
+    if (searchTerm.trim() === '') {
+      setShowResults(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('ruta_detalles')
+        .select('id, nombre')
+        .ilike('nombre', `%${searchTerm}%`);
+
+      if (error) {
+        console.error('Error searching routes:', error);
+        return;
+      }
+
+      setSearchResults(data || []);
+      setShowResults(true);
+    } catch (err) {
+      console.error('Error during search:', err);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const styles = {
-    body: {
-      fontFamily: 'sans-serif',
-      margin: 0,
-    },
     header: {
       position: 'fixed',
       top: 0,
@@ -121,6 +153,19 @@ const Navbar = ({ user }) => {
       fontSize: '1.2em',
       color: '#666',
     },
+    searchResultsContainer: {
+      position: 'absolute',
+      top: '60px',
+      right: '20px',
+      backgroundColor: '#fff',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      zIndex: 1001,
+      width: '300px',
+      maxHeight: '200px',
+      overflowY: 'auto',
+    },
   };
 
   return (
@@ -159,13 +204,12 @@ const Navbar = ({ user }) => {
             </li>
             <li>
               <Link
-                to="/contact"
-                style={location.pathname === '/contact' ? styles.menuAActive : styles.menuA}
+                to="/contacto"
+                style={location.pathname === '/contacto' ? styles.menuAActive : styles.menuA}
               >
                 Contacto
               </Link>
             </li>
-
             <li>
               <Link
                 to="/Galeria"
@@ -174,9 +218,6 @@ const Navbar = ({ user }) => {
                 Galería
               </Link>
             </li>
-
-    
-
           </ul>
         </div>
 
@@ -184,15 +225,29 @@ const Navbar = ({ user }) => {
           <div style={styles.busqueda}>
             <input
               type="text"
-              placeholder="Pico Naiguatá"
+              placeholder="Nombre de la ruta"
               style={styles.busquedaInput}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
-            <button style={styles.iconoLupa}>🔍</button>
+            <button style={styles.iconoLupa} onClick={handleSearch}>
+              🔍
+            </button>
           </div>
+
+          {showResults && (
+            <div style={styles.searchResultsContainer}>
+              <SearchResults results={searchResults} onClose={() => setShowResults(false)} />
+            </div>
+          )}
+
           <div style={styles.idioma}>
-            <span role="img" aria-label="Bandera de España">🇪🇸</span>
+            <span role="img" aria-label="Bandera de España">
+              🇪🇸
+            </span>
           </div>
-         
+
           <div
             style={styles.usuarioContainer}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -202,12 +257,11 @@ const Navbar = ({ user }) => {
         </div>
       </nav>
 
-     
       <Lateralbar
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
         ref={menuRef}
-        user={user} 
+        user={user}
       />
     </header>
   );
